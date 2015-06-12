@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MSFeaturePack.Cortana</id>
+    <version>1.0.0.0</version>
+    <title>Cortana Features for Windows Apps</title>
+    <authors>jbienzms</authors>
+    <owners>jbienzms</owners>
+    <projectUrl>https://github.com/jbienzms/FeatureEngine</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Easily add Cortana features like voice command activation and Cortana UI pane.</description>
+    <summary>Supports Windows 10 UAP</summary>
+    <releaseNotes>Testing Releases</releaseNotes>
+    <tags>FeaturePack, Cortana</tags>
+  </metadata>
+  <files>
+    <file src="Package.fpmanifest" target="tools\FeaturePack\Package.fpmanifest" />
+    <file src="CortanaFP.dll" target="tools\FeaturePack\Extensions\CortanaFP.dll" />
+    <file src="ItemTemplates\VoiceCommands.xml.t4" target="tools\FeaturePack\ItemTemplates\VoiceCommands.xml.t4" />
+  </files>
+</package>

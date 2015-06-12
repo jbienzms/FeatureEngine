@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<FeaturePackage xmlns="http://schemas.microsoft.com/packaging/2011/08/fespec.xsd">
+  <metadata>
+    <id>MSFeaturePack.Cortana</id>
+  </metadata>
+  <Features>
+    <Feature name="Cortana" Title="Cortana Features" ReferencedAction="AddCortanaSupport">
+      <Templates>
+        <!-- Either .vstemplate or possibly .t4 -->
+        <ItemTemplate name="VCD" src="ItemTemplates\VoiceCommands.xml.t4" title="Voice Command Definition" />
+        <!--<ItemTemplate name="ItemsPage" src="ItemTemplates\ItemsPage.vstemplate" title="Items Page" />
+        <ItemTemplate name="CortanaVoiceService" src="ItemTemplates\CortanaVoiceService.cs.t4" title="Cortana Voice Service" visibility="Project" visibilityScope="ClassLibrary" />-->
+        <!--<ProjectTemplate name="CortanaBGProj" src="ProjectTemplates\CortanaBGProj.vstdir" title="Cortana Background Project" />-->
+      </Templates>
+      <Extensions>
+        <Extension name="CortanaFP" src="CortanaFP.dll, CortanaFP" />
+      </Extensions>
+      <Actions>
+        <WorkflowAction name="AddCortanaSupport" src="CortanaFP.dll, AddCortanaSupport" title="Add Cortana Support" visibility="Project" />
+      </Actions>
+    </Feature>
+  </Features>
+</FeaturePackage>
