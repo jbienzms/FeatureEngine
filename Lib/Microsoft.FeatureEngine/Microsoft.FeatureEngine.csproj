@@ -49,15 +49,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\FeatureActivity.cs" />
+    <Compile Include="Activities\WhatIfActivity.cs" />
     <Compile Include="Extensions\TaskHelper.cs" />
-    <Compile Include="GetProjectName.cs" />
-    <Compile Include="Interfaces\IFeatureManager.cs" />
+    <Compile Include="Activities\GetProjectName.cs" />
+    <Compile Include="FeaturePacks\IFeaturePackMetadata.cs" />
+    <Compile Include="FeaturePacks\IFeatureAction.cs" />
+    <Compile Include="FeaturePacks\IFeatureActionContext.cs" />
+    <Compile Include="Services\IFeatureManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IServiceContainer.cs" />
+    <Compile Include="Workflow\IWhatIfExtension.cs" />
+    <Compile Include="Workflow\WhatIfExecutionResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

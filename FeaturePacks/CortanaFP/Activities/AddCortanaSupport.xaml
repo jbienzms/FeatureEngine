@@ -2,7 +2,7 @@
  xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
  xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
- xmlns:mf="clr-namespace:Microsoft.FeatureEngine;assembly=Microsoft.FeatureEngine"
+ xmlns:mf="clr-namespace:Microsoft.FeatureEngine.Activities;assembly=Microsoft.FeatureEngine"
  xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
  xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
  xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
@@ -42,11 +42,6 @@
       <Variable x:TypeArguments="x:String" Name="output" />
     </Sequence.Variables>
     <mf:GetProjectName sap2010:WorkflowViewState.IdRef="GetProjectName_2">
-      <mf:GetProjectName.Result>
-        <OutArgument x:TypeArguments="x:String">
-          <mca:CSharpReference x:TypeArguments="x:String">output</mca:CSharpReference>
-        </OutArgument>
-      </mf:GetProjectName.Result>
     </mf:GetProjectName>
     <sads:DebugSymbol.Symbol>d2VDOlxVc2Vyc1xqYmllbnpcQ29kZVxNaWNyb3NvZnRcRmVhdHVyZUVuZ2luZVxGZWF0dXJlUGFja3NcQ29ydGFuYUZQXEFjdGl2aXRpZXNcQWRkQ29ydGFuYVN1cHBvcnQueGFtbAMoAzQOAgEBLAUyGQIBAi8LL1cCAQM=</sads:DebugSymbol.Symbol>
   </Sequence>
