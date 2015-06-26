@@ -2,21 +2,28 @@
 <FeaturePackage xmlns="http://schemas.microsoft.com/packaging/2011/08/fespec.xsd">
   <metadata>
     <id>MSFeaturePack.Cortana</id>
+    <title>Cortana Feature Pack for Windows Apps</title>
+    <description>Easily add Cortana integration in your application for features like voice command activation.</description>
   </metadata>
   <Features>
-    <Feature name="Cortana" Title="Cortana Features" ReferencedAction="AddCortanaSupport">
+    <Feature targetFramework="win81" referenceAction="AddCortanaSupport">
+      <metadata>
+        <id>Cortana.UAP</id>
+        <title>Cortana Features for Windows 10 UAP Applications</title>
+        <description>Includes Cortana features for voice command activation and interacting with the Cortana UI pane.</description>
+      </metadata>
       <Templates>
         <!-- Either .vstemplate or possibly .t4 -->
-        <ItemTemplate name="VCD" src="ItemTemplates\VoiceCommands.xml.t4" title="Voice Command Definition" />
+        <ItemTemplate id="VCD" src="ItemTemplates\VoiceCommands.xml.t4" title="Voice Command Definition" />
         <!--<ItemTemplate name="ItemsPage" src="ItemTemplates\ItemsPage.vstemplate" title="Items Page" />
         <ItemTemplate name="CortanaVoiceService" src="ItemTemplates\CortanaVoiceService.cs.t4" title="Cortana Voice Service" visibility="Project" visibilityScope="ClassLibrary" />-->
         <!--<ProjectTemplate name="CortanaBGProj" src="ProjectTemplates\CortanaBGProj.vstdir" title="Cortana Background Project" />-->
       </Templates>
       <Extensions>
-        <Extension name="CortanaFP" src="CortanaFP.dll, CortanaFP" />
+        <Extension id="CortanaFP" src="Extensions\CortanaFP.dll" />
       </Extensions>
       <Actions>
-        <WorkflowAction name="AddCortanaSupport" src="CortanaFP.dll, AddCortanaSupport" title="Add Cortana Support" visibility="Project" />
+        <WorkflowAction id="AddCortanaSupport" type="CortanaFP.Activities.AddCortanaSupport, CortanaFP" title="Add Cortana Support" description="Adds files, capabilities and optionally services requried to support Cortana in an application." visibility="Project" />
       </Actions>
     </Feature>
   </Features>

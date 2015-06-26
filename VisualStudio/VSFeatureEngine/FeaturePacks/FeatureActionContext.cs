@@ -16,7 +16,12 @@ namespace VSFeatureEngine.FeaturePacks
 
             // Store
             this.ServiceContainer = serviceContainer;
+
+            // Defualts
+            IsInteractive = true;
         }
+
+        public bool IsInteractive { get; set; }
 
         public IServiceContainer ServiceContainer { get; }
     }

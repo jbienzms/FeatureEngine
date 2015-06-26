@@ -42,7 +42,10 @@ namespace Microsoft.FeatureEngine.Activities
         /// </summary>
         public FeatureActivity()
         {
+            // Defaults
+            Description = string.Empty;
             IsEnabled = true;
+            Title = string.Empty;
         }
         #endregion // Constructors
 
@@ -67,10 +70,28 @@ namespace Microsoft.FeatureEngine.Activities
 
         #region Public Properties
         /// <summary>
+        /// Gets a description for the activity.
+        /// </summary>
+        /// <remarks>
+        /// The description may be displayed in a user interface that allows the user to enable or disable the activity.
+        /// </remarks>
+        [DefaultValue("")]
+        public string Description { get; set; }
+
+        /// <summary>
         /// Indicates if the activity is enabled. The default is <c>true</c>.
         /// </summary>
         [DefaultValue(true)]
         public bool IsEnabled { get; set; }
+
+        /// <summary>
+        /// Gets a title for the activity.
+        /// </summary>
+        /// <remarks>
+        /// The title may be displayed in a user interface that allows the user to enable or disable the activity.
+        /// </remarks>
+        [DefaultValue("")]
+        public string Title { get; set; }
         #endregion // Public Properties
         #endregion // Instance Version
     }

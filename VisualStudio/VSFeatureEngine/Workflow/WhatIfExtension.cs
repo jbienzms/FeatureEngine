@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.FeatureEngine.Activities;
 using Microsoft.FeatureEngine.Workflow;
 
-namespace VSFeatureEngine.Extensions
+namespace VSFeatureEngine.Workflow
 {
     public class WhatIfExtension : IWhatIfExtension
     {

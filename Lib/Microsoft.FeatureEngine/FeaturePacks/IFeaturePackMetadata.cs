@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Microsoft.FeatureEngine
 {
     /// <summary>
-    /// Provides the metadata for a feature package.
+    /// Provides metadata for a feature package.
     /// </summary>
-    public interface IFeaturePackMetadata
+    public interface IFeaturePackMetadata : IMetadata
     {
         #region Public Properties
         /// <summary>
@@ -18,24 +18,14 @@ namespace Microsoft.FeatureEngine
         IEnumerable<string> Authors { get; }
 
         /// <summary>
-        /// Gets a description of the package.
+        /// Gets the features in the package.
         /// </summary>
-        string Description { get; }
-
-        /// <summary>
-        /// Gets the Id of the package.
-        /// </summary>
-        string Id { get; }
+        IEnumerable<IFeatureMetadata> Features { get; }
 
         /// <summary>
         /// Gets the location where the package is installed on disk.
         /// </summary>
         string InstallPath { get; }
-
-        /// <summary>
-        /// Gets the title of the package.
-        /// </summary>
-        string Title { get; }
 
         /// <summary>
         /// Gets the version of the package.

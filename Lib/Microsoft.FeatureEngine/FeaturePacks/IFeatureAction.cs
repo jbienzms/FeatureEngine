@@ -14,7 +14,7 @@ namespace Microsoft.FeatureEngine
         /// <summary>
         /// Gets the name of the action.
         /// </summary>
-        string Name { get; }
+        string Id { get; }
 
         /// <summary>
         /// Executes the action.

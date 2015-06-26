@@ -42,7 +42,7 @@ namespace Microsoft.FeatureEngine.Activities
             if (whatIf.IsInWhatIfMode)
             {
                 var result = ExecuteWhatIf(context);
-                whatIf.ProcessExecutionResult(new WhatIfExecutionResult(this, result));
+                whatIf.ProcessExecutionResult(result);
             }
             else
             {
@@ -72,9 +72,9 @@ namespace Microsoft.FeatureEngine.Activities
         /// The context for the activity.
         /// </param>
         /// <returns>
-        /// A <see cref="WhatIfExecutionState"/> that indicates whether or not the activity would execute.
+        /// A <see cref="WhatIfExecutionResult"/> that indicates the result of the What-If.
         /// </returns>
-        protected abstract WhatIfExecutionState ExecuteWhatIf(CodeActivityContext context);
+        protected abstract WhatIfExecutionResult ExecuteWhatIf(CodeActivityContext context);
         #endregion // Overrides / Event Handlers
         #endregion // Instance Version
     }

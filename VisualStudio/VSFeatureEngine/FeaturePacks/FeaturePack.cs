@@ -8,28 +8,30 @@ using Microsoft.FeatureEngine;
 
 namespace VSFeatureEngine.FeaturePacks
 {
-    public class FeaturePack : IFeaturePackMetadata
+    /// <summary>
+    /// Represents a feature pack.
+    /// </summary>
+    public class FeaturePack : MetadataBase, IFeaturePackMetadata
     {
+        #region Constructors
         public FeaturePack()
         {
             Authors = new Collection<string>();
-            Description = string.Empty;
-            Id = string.Empty;
+            Features = new Collection<Feature>();
             InstallPath = string.Empty;
-            Title = string.Empty;
             Version = string.Empty;
         }
+        #endregion // Constructors
+
+        #region Public Properties
         public Collection<string> Authors { get; set; }
 
-        public string Description { get; set; }
-
-        public string Id { get; set; }
+        public Collection<Feature> Features { get; set; }
 
         public string InstallPath { get; set; }
 
-        public string Title { get; set; }
-
         public string Version { get; set; }
+        #endregion // Public Properties
 
         #region IFeaturePackMetadata Implementation
         IEnumerable<string> IFeaturePackMetadata.Authors
@@ -37,6 +39,14 @@ namespace VSFeatureEngine.FeaturePacks
             get
             {
                 return this.Authors;
+            }
+        }
+
+        IEnumerable<IFeatureMetadata> IFeaturePackMetadata.Features
+        {
+            get
+            {
+                return this.Features;
             }
         }
         #endregion // IFeaturePackMetadata Implementation

@@ -10,10 +10,9 @@ namespace Microsoft.FeatureEngine.Activities
 {
     public class GetProjectName : FeatureActivity
     {
-
-        protected override WhatIfExecutionState ExecuteWhatIf(CodeActivityContext context)
+        protected override WhatIfExecutionResult ExecuteWhatIf(CodeActivityContext context)
         {
-            return WhatIfExecutionState.WouldExecute;
+            return new WhatIfExecutionResult(this, WhatIfExecutionState.Recommended);
         }
 
         protected override void ExecuteNonWhatIf(CodeActivityContext context)
