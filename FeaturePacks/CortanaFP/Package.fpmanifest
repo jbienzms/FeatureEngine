@@ -20,10 +20,10 @@
         <!--<ProjectTemplate name="CortanaBGProj" src="ProjectTemplates\CortanaBGProj.vstdir" title="Cortana Background Project" />-->
       </Templates>
       <Extensions>
-        <Extension id="CortanaFP" src="Extensions\CortanaFP.dll" />
+        <Extension id="CortanaFP" src="Extensions\CortanaFP.dll"/>
       </Extensions>
       <Actions>
-        <WorkflowAction id="AddCortanaSupport" type="CortanaFP.Activities.AddCortanaSupport, CortanaFP" title="Add Cortana Support" description="Adds files, capabilities and optionally services requried to support Cortana in an application." visibility="Project" />
+        <WorkflowAction id="AddCortanaSupport" extension="CortanaFP" type="CortanaFP.Activities.AddCortanaSupport" title="Add Cortana Support" description="Adds files, capabilities and optionally services requried to support Cortana in an application." visibility="Project" />
       </Actions>
     </Feature>
   </Features>

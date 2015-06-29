@@ -66,12 +66,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Commands\DynamicItemMenuCommand.cs" />
     <Compile Include="Commands\MenuGuids.cs" />
     <Compile Include="Commands\ManageFeaturesCommand.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="FeaturePacks\Feature.cs" />
     <Compile Include="FeaturePacks\FeatureExtension.cs" />
     <Compile Include="FeaturePacks\MetadataBase.cs" />
+    <Compile Include="Strings.Designer.cs">
+      <DependentUpon>Strings.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Workflow\WhatIfExtension.cs" />
     <Compile Include="FeaturePacks\FeatureAction.cs" />
     <Compile Include="FeaturePacks\FeatureActionContext.cs" />
@@ -108,6 +114,10 @@
     <Content Include="Resources\FeatureEnginePackage.ico" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Strings.resx">
+      <Generator>ResxFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>

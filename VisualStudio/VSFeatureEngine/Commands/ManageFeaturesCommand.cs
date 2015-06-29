@@ -63,8 +63,8 @@ namespace VSFeatureEngine
             OleMenuCommandService commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (commandService != null)
             {
-                CommandID menuCommandID = new CommandID(MenuGuids.MainMenuGroup, CommandId);
-                EventHandler eventHandler = this.AddNuGet;
+                CommandID menuCommandID = new CommandID(MenuGuids.ProjectMenuGroup, CommandId);
+                EventHandler eventHandler = this.ShowDialog;
                 MenuCommand menuItem = new MenuCommand(eventHandler, menuCommandID);
                 commandService.AddCommand(menuItem);
             }

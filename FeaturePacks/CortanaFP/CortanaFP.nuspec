@@ -3,13 +3,13 @@
   <metadata>
     <id>MSFeaturePack.Cortana</id>
     <version>1.0.0.0</version>
-    <title>Cortana Features for Windows Apps</title>
+    <title>Cortana Feature Pack</title>
     <authors>jbienzms</authors>
     <owners>jbienzms</owners>
     <projectUrl>https://github.com/jbienzms/FeatureEngine</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Easily add Cortana features like voice command activation and Cortana UI pane.</description>
-    <summary>Supports Windows 10 UAP</summary>
+    <summary>Cortana Features for Windows Apps</summary>
     <releaseNotes>Testing Releases</releaseNotes>
     <tags>FeaturePack, Cortana</tags>
   </metadata>

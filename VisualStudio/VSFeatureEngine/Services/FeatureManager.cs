@@ -37,17 +37,19 @@ namespace VSFeatureEngine
             public XName Features { get { return root + "Features"; } }
 
 
-            public XName description { get { return root + "description"; } }
+            public XName description { get { return XNamespace.None + "description"; } }
 
-            public XName id { get { return root + "id"; } }
+            public XName extension { get { return XNamespace.None + "extension"; } }
 
-            public XName metadata { get { return root + "metadata"; } }
+            public XName id { get { return XNamespace.None + "id"; } }
 
-            public XName src { get { return root + "src"; } }
+            public XName metadata { get { return XNamespace.None + "metadata"; } }
 
-            public XName title { get { return root + "title"; } }
+            public XName src { get { return XNamespace.None + "src"; } }
 
-            public XName type { get { return root + "type"; } }
+            public XName title { get { return XNamespace.None + "title"; } }
+
+            public XName type { get { return XNamespace.None + "type"; } }
         }
 
         private class LoadContext
@@ -66,15 +68,43 @@ namespace VSFeatureEngine
                 // Load each action
                 foreach (var actionElement in actionsElement.Elements())
                 {
-                    // Get the ID for the action
+                    // Get attributes for the action
                     string id = (string)actionElement.Attribute(ns.id);
+                    string extensionId = (string)actionElement.Attribute(ns.extension);
                     string typeName = (string)actionElement.Attribute(ns.type);
+
+                    // Test for missing attributes
+                    if (string.IsNullOrEmpty(id))
+                    {
+                        throw new InvalidOperationException(string.Format(Strings.RequiredAttributeForAction, ns.id));
+                    }
 
                     switch (actionElement.Name.LocalName.ToLower())
                     {
                         case "workflowaction":
-                            // Get the type from the source
-                            var activityType = Type.GetType(typeName);
+                            // Additional validation for workflow actions
+                            if (string.IsNullOrEmpty(extensionId))
+                            {
+                                throw new InvalidOperationException(string.Format(Strings.RequiredAttributeForCodeAction, ns.extension));
+                            }
+                            if (string.IsNullOrEmpty(typeName))
+                            {
+                                throw new InvalidOperationException(string.Format(Strings.RequiredAttributeForCodeAction, ns.type));
+                            }
+
+                            // Try to get the extension
+                            var extension = feature.Extensions.Where(e => e.Id == extensionId).FirstOrDefault();
+                            if (extension == null)
+                            {
+                                throw new InvalidOperationException(string.Format(Strings.ExtensionIdNotFound, extensionId));
+                            }
+
+                            // Try to get the type from the extension
+                            var activityType = extension.Assembly.GetType(typeName);
+                            if (activityType == null)
+                            {
+                                throw new InvalidOperationException(string.Format(Strings.TypeNameNotFoundInAssembly, typeName, extension.Assembly.FullName));
+                            }
 
                             // Create the action
                             var wfAction = new WorkflowFeatureAction(id, activityType);
@@ -107,7 +137,7 @@ namespace VSFeatureEngine
                     // Make sure source is valid
                     if (string.IsNullOrEmpty(src))
                     {
-                        throw new InvalidOperationException(string.Format("Attribute {0} is required for extensions", ns.src));
+                        throw new InvalidOperationException(string.Format(Strings.RequiredAttributeForExtension, ns.src));
                     }
 
                     // Convert relative to absolute
@@ -199,13 +229,13 @@ namespace VSFeatureEngine
             // Run with error handling
             TaskHelper.RunWithErrorHandling(() =>
             {
-                if (!Directory.Exists(packagePath)) { throw new InvalidOperationException("packagePath does not specify a valid location"); }
+                if (!Directory.Exists(packagePath)) { throw new InvalidOperationException(string.Format(Strings.InvalidPath, packagePath)); }
 
                 // Try to get the manifest
                 var manifestPath = Path.Combine(packagePath, Constants.ManifestFileName);
 
                 // Make sure manifest exists
-                if (!File.Exists(manifestPath)) { throw new InvalidOperationException(string.Format("No feature package manifest ({0}) could be found at {1}.", Constants.ManifestFileName, packagePath)); }
+                if (!File.Exists(manifestPath)) { throw new InvalidOperationException(string.Format(Strings.MissingFeatureManifestAtPath, Constants.ManifestFileName, packagePath)); }
 
                 // Create the FeaturePack instance that we'll fill out
                 var pack = new FeaturePack();
@@ -233,7 +263,7 @@ namespace VSFeatureEngine
                 // Notify listeners
                 OnPackageLoaded(pack);
 
-            }, TaskRunOptions.WithFailure("Could not enable feature pack"));
+            }, TaskRunOptions.WithFailure(Strings.CouldNotEnableFeaturePack));
         }
 
         public void UnloadPackage(string id)
