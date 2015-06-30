@@ -39,7 +39,7 @@ namespace VSFeatureEngine
         /// <summary>
         /// Command ID.
         /// </summary>
-        public const int CommandId = 4129;
+        public const int CommandId = 0x101;
 
         /// <summary>
         /// VS Package that provides this command, not null.
@@ -63,7 +63,7 @@ namespace VSFeatureEngine
             OleMenuCommandService commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (commandService != null)
             {
-                CommandID menuCommandID = new CommandID(MenuGuids.ProjectMenuGroup, CommandId);
+                CommandID menuCommandID = new CommandID(MenuGuids.FeatureEngineCommandSet, CommandId);
                 EventHandler eventHandler = this.ShowDialog;
                 MenuCommand menuItem = new MenuCommand(eventHandler, menuCommandID);
                 commandService.AddCommand(menuItem);
@@ -96,7 +96,10 @@ namespace VSFeatureEngine
         /// <param name="package">Owner package, not null.</param>
         public static void Initialize(Package package)
         {
-            Instance = new ManageFeaturesCommand(package);
+            if (Instance == null)
+            {
+                Instance = new ManageFeaturesCommand(package);
+            }
         }
 
         /// <summary>

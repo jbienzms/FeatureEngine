@@ -33,6 +33,6 @@ namespace VSFeatureEngine
         /// <summary>
         /// Command menu group (command set GUID).
         /// </summary>
-        public static readonly Guid ProjectMenuGroup = new Guid("28b97737-a1b4-4bd6-b55c-ad4ef63a1c51");
+        public static readonly Guid FeatureEngineCommandSet = new Guid("28b97737-a1b4-4bd6-b55c-ad4ef63a1c51");
     }
 }

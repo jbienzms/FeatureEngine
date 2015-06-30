@@ -1,17 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<FeaturePackage xmlns="http://schemas.microsoft.com/packaging/2011/08/fespec.xsd">
-  <metadata>
-    <id>MSFeaturePack.Cortana</id>
-    <title>Cortana Feature Pack for Windows Apps</title>
-    <description>Easily add Cortana integration in your application for features like voice command activation.</description>
-  </metadata>
+<FeaturePackage id="MSFeaturePack.Cortana" xmlns="http://schemas.microsoft.com/packaging/2011/08/fespec.xsd"
+                title="Cortana Feature Pack for Windows Apps"
+                description="Easily add Cortana integration in your application for features like voice command activation.">
   <Features>
-    <Feature targetFramework="win81" referenceAction="AddCortanaSupport">
-      <metadata>
-        <id>Cortana.UAP</id>
-        <title>Cortana Features for Windows 10 UAP Applications</title>
-        <description>Includes Cortana features for voice command activation and interacting with the Cortana UI pane.</description>
-      </metadata>
+    <Feature id="Cortana.UAP" targetFramework="win81" referenceAction="AddCortanaSupport"
+             title="Cortana Features for Windows 10 UAP Applications"
+             description="Includes Cortana features for voice command activation and interacting with the Cortana UI pane.">
       <Templates>
         <!-- Either .vstemplate or possibly .t4 -->
         <ItemTemplate id="VCD" src="ItemTemplates\VoiceCommands.xml.t4" title="Voice Command Definition" />
@@ -23,8 +17,11 @@
         <Extension id="CortanaFP" src="Extensions\CortanaFP.dll"/>
       </Extensions>
       <Actions>
-        <WorkflowAction id="AddCortanaSupport" extension="CortanaFP" type="CortanaFP.Activities.AddCortanaSupport" title="Add Cortana Support" description="Adds files, capabilities and optionally services requried to support Cortana in an application." visibility="Project" />
-      </Actions>
+        <WorkflowAction id="AddCortanaSupport" extension="CortanaFP" type="CortanaFP.Activities.AddCortanaSupport" visibility="Project"
+                        title="Add Cortana Support"
+                        description="Adds files, capabilities and optionally services requried to support Cortana in an application.">
+        </WorkflowAction>
+        </Actions>
     </Feature>
   </Features>
 </FeaturePackage>

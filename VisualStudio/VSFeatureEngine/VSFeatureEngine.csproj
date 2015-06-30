@@ -66,7 +66,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Commands\DynamicItemMenuCommand.cs" />
+    <Compile Include="Extensibility\DynamicMenuCommand.cs" />
+    <Compile Include="Extensibility\DynamicMenu.cs" />
+    <Compile Include="Commands\ActionsMenu.cs" />
     <Compile Include="Commands\MenuGuids.cs" />
     <Compile Include="Commands\ManageFeaturesCommand.cs" />
     <Compile Include="Constants.cs" />
@@ -106,6 +108,7 @@
     <Content Include="Resources\CommandImages.png" />
     <VSCTCompile Include="FeatureEnginePackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
     </VSCTCompile>
     <Content Include="MS-LPL License.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

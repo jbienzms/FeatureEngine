@@ -7,7 +7,7 @@ using Microsoft.FeatureEngine;
 
 namespace VSFeatureEngine.FeaturePacks
 {
-    public abstract class FeatureAction : IFeatureAction, IFeatureActionMetadata
+    public abstract class FeatureAction : MetadataBase, IFeatureAction, IFeatureActionMetadata
     {
         #region Constructors
         public FeatureAction(string id)
@@ -27,14 +27,5 @@ namespace VSFeatureEngine.FeaturePacks
         #region Overridables / Event Triggers
         public abstract void Execute(IFeatureActionContext context);
         #endregion // Overridables / Event Triggers
-
-
-        #region Public Properties
-        public string Description { get; set; }
-
-        public string Id { get; private set; }
-
-        public string Title { get; set; }
-        #endregion // Public Properties
     }
 }

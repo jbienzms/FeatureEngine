@@ -70,6 +70,8 @@ namespace VSFeatureEngine
                 {
                     // Get attributes for the action
                     string id = (string)actionElement.Attribute(ns.id);
+                    string title = (string)actionElement.Attribute(ns.title);
+                    string description = (string)actionElement.Attribute(ns.description);
                     string extensionId = (string)actionElement.Attribute(ns.extension);
                     string typeName = (string)actionElement.Attribute(ns.type);
 
@@ -78,6 +80,14 @@ namespace VSFeatureEngine
                     {
                         throw new InvalidOperationException(string.Format(Strings.RequiredAttributeForAction, ns.id));
                     }
+
+                    if (string.IsNullOrEmpty(title))
+                    {
+                        throw new InvalidOperationException(string.Format(Strings.RequiredAttributeForAction, ns.title));
+                    }
+
+                    // Placeholder
+                    FeatureAction action = null;
 
                     switch (actionElement.Name.LocalName.ToLower())
                     {
@@ -108,10 +118,19 @@ namespace VSFeatureEngine
 
                             // Create the action
                             var wfAction = new WorkflowFeatureAction(id, activityType);
-
-                            // Add it to the collection
-                            feature.Actions.Add(wfAction);
+                            action = wfAction;
                             break;
+                    }
+
+                    // If action was created, set metadata and add it
+                    if (action != null)
+                    {
+                        // Load metadata
+                        LoadMetadata(context, actionElement, action);
+
+                        // Add it to the collection
+                        feature.Actions.Add(action);
+
                     }
                 }
             }
@@ -179,15 +198,12 @@ namespace VSFeatureEngine
             }
         }
 
-        static private bool LoadMetadata(LoadContext context, XElement element, MetadataBase metadata)
+        static private void LoadMetadata(LoadContext context, XElement element, MetadataBase metadata)
         {
             var ns = context.NameSpace;
-            var md = element.Element(ns.metadata);
-            if (md == null) { return false; }
-            metadata.Id = (string)md.Element(ns.id);
-            metadata.Title = (string)md.Element(ns.title);
-            metadata.Description = (string)md.Element(ns.description);
-            return true;
+            metadata.Id = (string)element.Attribute(ns.id);
+            metadata.Title = (string)element.Attribute(ns.title);
+            metadata.Description = (string)element.Attribute(ns.description);
         }
 
         #region Member Variables
@@ -198,6 +214,18 @@ namespace VSFeatureEngine
 
         protected virtual void OnPackageLoaded(FeaturePack pack)
         {
+            // Make sure actions are registered in all actions menu
+            var actions = ActionsMenu.Instance.Actions;
+            foreach (var feature in pack.Features)
+            {
+                foreach (var action in feature.Actions)
+                {
+                    if (!actions.Contains(action))
+                    {
+                        actions.Add(action);
+                    }
+                }
+            }
             if (PackageLoaded != null)
             {
                 PackageLoaded(this, new FeaturePackEventArgs(pack));

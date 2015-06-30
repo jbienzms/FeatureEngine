@@ -36,29 +36,71 @@
          group as the part of a menu contained between two lines. The parent of a group 
          must be a menu. -->
     <Groups>
-      <Group guid="guidFeatureEnginePackageCmdSet" id="FeatureEngineMenuGroup" priority="0x0600">
+      <!-- ProjectGroup hangs off of right-click on project menu -->
+      <Group guid="FeatureEngineCommandSet" id="ProjectGroup" priority="0x0400">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE" />
       </Group>
+      
+      <!-- FeaturesGroup is the dynamic group that contains items for FeaturesMenu. -->
+      <Group guid="FeatureEngineCommandSet" id="FeaturesGroup" priority="0x1000" >
+        <Parent guid="FeatureEngineCommandSet" id="FeaturesMenu" />
+      </Group>
     </Groups>
+
+    <Menus>
+      <!-- Dynamic Menu for Features -->
+      <Menu guid="FeatureEngineCommandSet" id="FeaturesMenu" priority="0x200" type="MenuController">
+        <Parent guid="FeatureEngineCommandSet" id="ProjectGroup" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <Strings>
+          <ButtonText>Features</ButtonText>
+        </Strings>
+      </Menu>
+    </Menus>
     
     <!--Buttons section. -->
     <!--This section defines the elements the user can interact with, like a menu command or a button 
         or combo box in a toolbar. -->
     <Buttons>
-      <!--To define a menu group you have to specify its ID, the parent menu and its display priority. 
-          The command is visible and enabled by default. If you need to change the visibility, status, etc, you can use
-          the CommandFlag node.
-          You can add more than one CommandFlag node e.g.:
-              <CommandFlag>DefaultInvisible</CommandFlag>
-              <CommandFlag>DynamicVisibility</CommandFlag>
-          If you do not want an image next to your command, remove the Icon node /> -->
-      <Button guid="guidFeatureEnginePackageCmdSet" id="cmdidManageFeaturesCommand" priority="0x0100" type="Button">
-        <Parent guid="guidFeatureEnginePackageCmdSet" id="FeatureEngineMenuGroup" />
-        <Icon guid="commandImages" id="bmpPic1" />
+
+      <!-- The anchor item to supply the icon/tooltip for the  -->
+      <Button guid="FeatureEngineCommandSet" id="FeaturesAnchor" priority="0x0000" >
+        <Parent guid="FeatureEngineCommandSet" id="FeaturesGroup" />
+        <!-- This is the icon that appears on the Project context menu -->
+        <Icon guid="commandImages" id="bmpPicArrows"/>
+        <!-- Do not show on the menu controller's drop down list -->
+        <CommandFlag>NoShowOnMenuController</CommandFlag>
+        <!-- Become the permanent anchor item for the menu controller -->
+        <CommandFlag>FixMenuController</CommandFlag>
+        <!-- The text that appears in the tooltip.-->
         <Strings>
-          <ButtonText>Manage Features</ButtonText>
+          <ButtonText>Feature Manager</ButtonText>
         </Strings>
       </Button>
+
+      <!-- Regular Commands -->
+      <!--
+      <Button guid="FeatureEngineCommandSet" id="ManageCommand" priority="0x0100" type="Button">
+        <Parent guid="FeatureEngineCommandSet" id="FeaturesGroup" />
+        <Icon guid="commandImages" id="bmpPic1" />
+        <Strings>
+          <ButtonText>Manage</ButtonText>
+        </Strings>
+      </Button>
+      -->
+
+      <!-- Start of Dynamic Items -->
+      <Button guid="FeatureEngineCommandSet" id="FeaturesDynamicStart" priority="0x200" >
+        <Parent guid="FeatureEngineCommandSet" id="FeaturesGroup" />
+        <CommandFlag>DynamicItemStart</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>TextChanges</CommandFlag>
+        <!-- This text does not appear. -->
+        <Strings>
+          <ButtonText></ButtonText>
+        </Strings>
+      </Button>
+      
     </Buttons>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
@@ -71,18 +113,45 @@
       <Bitmap guid="commandImages" href="Resources\CommandImages.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
     </Bitmaps>
   </Commands>
-  
+
   <Symbols>
     <!-- This is the package guid. -->
     <GuidSymbol name="guidFeatureEnginePackage" value="{665f4432-1b50-4fc9-a11e-5b6726060780}" />
     
     <!-- This is the guid used to group the menu commands together -->
-    <GuidSymbol name="guidFeatureEnginePackageCmdSet" value="{28b97737-a1b4-4bd6-b55c-ad4ef63a1c51}">
-      <IDSymbol name="FeatureEngineMenuGroup" value="0x1020" />
-      <IDSymbol value="4129" name="cmdidManageFeaturesCommand" />
+    <GuidSymbol name="FeatureEngineCommandSet" value="{28b97737-a1b4-4bd6-b55c-ad4ef63a1c51}">
+
+      <!-- 
+      Groups 
+      -->
+      <!-- Project -> Features -->
+      <IDSymbol name="ProjectGroup"             value="0x1020" />
+      <!-- Features -> [Features] -->
+      <IDSymbol name="FeaturesGroup"            value="0x1025" />
+
+      <!-- 
+      Menus
+      -->
+      <IDSymbol name="FeaturesMenu"             value ="0x1030"/>
+
+      <!-- 
+      Regular Commands
+      -->
+      <!-- Features -> Manage -->
+      <IDSymbol name="ManageCommand"            value="0x101" />
+      
+
+      <!-- 
+      Placeholder Symbols (for Menus)
+      -->
+      <!-- Proivdes Icon and Tooltip for Feature Manager menu -->
+      <IDSymbol name="FeaturesAnchor"           value="0x0100" />
+      <!-- Start ID for Features menu -->
+      <IDSymbol name="FeaturesDynamicStart"     value="0x0102" />
+
     </GuidSymbol>
 
-    <GuidSymbol value="{0708d8d2-95ee-4158-9a7b-77d432f3b1af}" name="commandImages">
+    <GuidSymbol name="commandImages" value="{0708d8d2-95ee-4158-9a7b-77d432f3b1af}">
       <IDSymbol name="bmpPic1" value="1" />
       <IDSymbol name="bmpPic2" value="2" />
       <IDSymbol name="bmpPicSearch" value="3" />
