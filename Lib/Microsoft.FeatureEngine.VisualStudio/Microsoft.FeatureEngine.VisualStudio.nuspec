@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.FeatureEngine.VisualStudio</id>
+    <version>1.0.0-beta1</version>
+    <title>Visual Studio tools for Microsoft Feature Engine</title>
+    <authors>jbienzms</authors>
+    <owners>jbienzms</owners>
+    <projectUrl>https://github.com/jbienzms/FeatureEngine</projectUrl>
+    <licenseUrl>http://www.microsoft.com/net/dotnet_library_license.htm</licenseUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Supporting activities and helper classes for automating Visual Studio.</description>
+    <summary>Supporting activities and helper classes for automating Visual Studio.</summary>
+    <releaseNotes>Beta Release</releaseNotes>
+    <tags>FeatureEngine, VisualStudio</tags>
+    <dependencies>
+      <dependency id="Microsoft.FeatureEngine" version="1.0.0-beta1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Microsoft.FeatureEngine.VisualStudio.dll" target="lib\net45\Microsoft.FeatureEngine.VisualStudio.dll" />
+  </files>
+</package>

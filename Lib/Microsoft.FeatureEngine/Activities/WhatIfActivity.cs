@@ -13,7 +13,7 @@ namespace Microsoft.FeatureEngine.Activities
     /// <summary>
     /// Represents an activity that can participate in a "What If" scenario.
     /// </summary>
-    public abstract class WhatIfActivity : CodeActivity
+    public abstract class WhatIfActivity : FeatureActivity
     {
         #region Static Version
         #region Internal Methods

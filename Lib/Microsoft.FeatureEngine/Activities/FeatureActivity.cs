@@ -11,7 +11,7 @@ namespace Microsoft.FeatureEngine.Activities
     /// <summary>
     /// The base class for an activity that is part of a feature pack.
     /// </summary>
-    public abstract class FeatureActivity : WhatIfActivity
+    public abstract class FeatureActivity : CodeActivity
     {
         #region Static Version
         #region Internal Methods
@@ -54,17 +54,6 @@ namespace Microsoft.FeatureEngine.Activities
         {
             base.CacheMetadata(metadata);
             metadata.RequireExtension<IServiceContainer>();
-        }
-
-        protected override void Execute(CodeActivityContext context)
-        {
-            bool whatIfMode = IsInWhatIfMode(context);
-
-            // Only pass to base if execution is enabled or if we are testing what-if.
-            if (IsEnabled || whatIfMode)
-            {
-                base.Execute(context);
-            }
         }
         #endregion // Overrides / Event Handlers
 

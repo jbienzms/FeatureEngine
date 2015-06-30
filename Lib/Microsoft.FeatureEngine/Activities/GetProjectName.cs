@@ -8,7 +8,7 @@ using Microsoft.FeatureEngine.Workflow;
 
 namespace Microsoft.FeatureEngine.Activities
 {
-    public class GetProjectName : FeatureActivity
+    public class GetProjectName : WhatIfActivity
     {
         protected override WhatIfExecutionResult ExecuteWhatIf(CodeActivityContext context)
         {

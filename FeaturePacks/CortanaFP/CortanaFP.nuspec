@@ -2,16 +2,20 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>MSFeaturePack.Cortana</id>
-    <version>1.0.0.0</version>
+    <version>1.0.0-beta1</version>
     <title>Cortana Feature Pack</title>
     <authors>jbienzms</authors>
     <owners>jbienzms</owners>
     <projectUrl>https://github.com/jbienzms/FeatureEngine</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>http://www.microsoft.com/net/dotnet_library_license.htm</licenseUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Easily add Cortana features like voice command activation and Cortana UI pane.</description>
     <summary>Cortana Features for Windows Apps</summary>
     <releaseNotes>Testing Releases</releaseNotes>
     <tags>FeaturePack, Cortana</tags>
+    <dependencies>
+      <dependency id="Microsoft.FeatureEngine.VisualStudio" version="1.0.0-beta1" />
+    </dependencies>
   </metadata>
   <files>
     <file src="Package.fpmanifest" target="tools\FeaturePack\Package.fpmanifest" />

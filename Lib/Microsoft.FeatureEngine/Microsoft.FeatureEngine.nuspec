@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.FeatureEngine</id>
+    <version>1.0.0-beta1</version>
+    <title>Microsoft Feature Engine</title>
+    <authors>jbienzms</authors>
+    <owners>jbienzms</owners>
+    <projectUrl>https://github.com/jbienzms/FeatureEngine</projectUrl>
+    <licenseUrl>http://www.microsoft.com/net/dotnet_library_license.htm</licenseUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Base classes and types for working with Microsoft Feature Engine</description>
+    <summary>Base classes and types for working with Microsoft Feature Engine</summary>
+    <releaseNotes>Beta Release</releaseNotes>
+    <tags>FeatureEngine, VisualStudio</tags>
+    <dependencies>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Microsoft.FeatureEngine.dll" target="lib\net45\Microsoft.FeatureEngine.dll" />
+  </files>
+</package>
