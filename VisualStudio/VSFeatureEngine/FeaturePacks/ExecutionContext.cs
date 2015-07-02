@@ -7,9 +7,9 @@ using Microsoft.FeatureEngine;
 
 namespace VSFeatureEngine.FeaturePacks
 {
-    public class FeatureActionContext : IFeatureActionContext
+    public class ExecutionContext : IExecutionContext
     {
-        public FeatureActionContext(IServiceContainer serviceContainer)
+        public ExecutionContext(IServiceContainer serviceContainer)
         {
             // Validate
             if (serviceContainer == null) throw new ArgumentNullException("serviceContainer");

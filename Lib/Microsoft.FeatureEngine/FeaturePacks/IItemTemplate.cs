@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 namespace Microsoft.FeatureEngine
 {
     /// <summary>
-    /// Provides metadata for a feature.
+    /// Provides metadata for an item template.
     /// </summary>
-    public interface IFeatureMetadata : IMetadata
+    public interface IItemTemplate : IMetadata
     {
         #region Public Properties
         /// <summary>
-        /// Gets the actions in the package.
+        /// Gets the location where the template is installed on disk.
         /// </summary>
-        IEnumerable<IFeatureActionMetadata> Actions { get; }
+        string InstallPath { get; }
         #endregion // Public Properties
     }
 }

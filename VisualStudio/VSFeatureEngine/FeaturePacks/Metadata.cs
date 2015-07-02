@@ -7,9 +7,9 @@ using Microsoft.FeatureEngine;
 
 namespace VSFeatureEngine.FeaturePacks
 {
-    public class MetadataBase : IMetadata
+    public class Metadata : IMetadata
     {
-        public MetadataBase()
+        public Metadata()
         {
             Description = string.Empty;
             Id = string.Empty;

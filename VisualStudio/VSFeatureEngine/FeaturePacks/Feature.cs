@@ -11,29 +11,50 @@ namespace VSFeatureEngine.FeaturePacks
     /// <summary>
     /// Represents a feature in a feature pack.
     /// </summary>
-    public class Feature : MetadataBase, IFeatureMetadata
+    public class Feature : Metadata, IFeature
     {
         #region Constructors
         public Feature()
         {
-            Actions = new Collection<FeatureAction>();
+            Actions = new Collection<Action>();
             Extensions = new Collection<FeatureExtension>();
+            ItemTemplates = new Collection<ItemTemplate>();
+            ProjectTemplates = new Collection<ProjectTemplate>();
         }
         #endregion // Constructors
 
         #region Public Properties
-        public Collection<FeatureAction> Actions { get; set; }
+        public Collection<Action> Actions { get; set; }
 
         public Collection<FeatureExtension> Extensions { get; set; }
 
+        public Collection<ItemTemplate> ItemTemplates { get; set; }
+
+        public Collection<ProjectTemplate> ProjectTemplates { get; set; }
         #endregion // Public Properties
 
         #region IFeatureMetadata Implementation
-        IEnumerable<IFeatureActionMetadata> IFeatureMetadata.Actions
+        IEnumerable<IAction> IFeature.Actions
         {
             get
             {
                 return this.Actions;
+            }
+        }
+
+        IEnumerable<IItemTemplate> IFeature.ItemTemplates
+        {
+            get
+            {
+                return this.ItemTemplates;
+            }
+        }
+
+        IEnumerable<IProjectTemplate> IFeature.ProjectTemplates
+        {
+            get
+            {
+                return this.ProjectTemplates;
             }
         }
         #endregion // IFeaturePackMetadata Implementation

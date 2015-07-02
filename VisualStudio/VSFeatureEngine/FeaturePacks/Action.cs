@@ -7,10 +7,10 @@ using Microsoft.FeatureEngine;
 
 namespace VSFeatureEngine.FeaturePacks
 {
-    public abstract class FeatureAction : MetadataBase, IFeatureAction, IFeatureActionMetadata
+    public abstract class Action : Metadata, IAction
     {
         #region Constructors
-        public FeatureAction(string id)
+        public Action(string id)
         {
             // Validate
             if (string.IsNullOrEmpty(id)) throw new ArgumentException("id");
@@ -25,7 +25,7 @@ namespace VSFeatureEngine.FeaturePacks
         #endregion // Constructors
 
         #region Overridables / Event Triggers
-        public abstract void Execute(IFeatureActionContext context);
+        public abstract void Execute(IExecutionContext context);
         #endregion // Overridables / Event Triggers
     }
 }

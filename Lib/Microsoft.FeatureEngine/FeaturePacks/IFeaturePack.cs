@@ -9,7 +9,7 @@ namespace Microsoft.FeatureEngine
     /// <summary>
     /// Provides metadata for a feature package.
     /// </summary>
-    public interface IFeaturePackMetadata : IMetadata
+    public interface IFeaturePack : IMetadata
     {
         #region Public Properties
         /// <summary>
@@ -20,7 +20,7 @@ namespace Microsoft.FeatureEngine
         /// <summary>
         /// Gets the features in the package.
         /// </summary>
-        IEnumerable<IFeatureMetadata> Features { get; }
+        IEnumerable<IFeature> Features { get; }
 
         /// <summary>
         /// Gets the location where the package is installed on disk.

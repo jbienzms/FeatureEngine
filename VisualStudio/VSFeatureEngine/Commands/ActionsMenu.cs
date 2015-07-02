@@ -11,7 +11,7 @@ using VSFeatureEngine.FeaturePacks;
 
 namespace VSFeatureEngine
 {
-    public class ActionsMenu : DynamicMenu<FeatureAction>
+    public class ActionsMenu : DynamicMenu<FeaturePacks.Action>
     {
         #region Static Version
         #region Constants
@@ -47,26 +47,26 @@ namespace VSFeatureEngine
 
         #region Instance Version
         #region Member Variables
-        private Collection<FeatureAction> actions;
+        private Collection<FeaturePacks.Action> actions;
         #endregion // Member Variables
 
         public ActionsMenu(Package package) : base(package, MenuGuids.FeatureEngineCommandSet, StartCommandId)
         {
-            actions = new Collection<FeatureAction>();
+            actions = new Collection<FeaturePacks.Action>();
         }
 
         #region Overrides / Event Handlers
-        protected override string GetItemTitle(FeatureAction item)
+        protected override string GetItemTitle(FeaturePacks.Action item)
         {
             return item.Title;
         }
 
-        protected override void OnItemInvoked(FeatureAction item)
+        protected override void OnItemInvoked(FeaturePacks.Action item)
         {
             Debug.WriteLine("Invoked: " + item.Title);
         }
 
-        protected override IList<FeatureAction> Items
+        protected override IList<FeaturePacks.Action> Items
         {
             get
             {
@@ -75,7 +75,7 @@ namespace VSFeatureEngine
         }
         #endregion // Overrides / Event Handlers
 
-        public Collection<FeatureAction> Actions { get { return actions; } }
+        public Collection<FeaturePacks.Action> Actions { get { return actions; } }
         #endregion // Instance Version
     }
 }

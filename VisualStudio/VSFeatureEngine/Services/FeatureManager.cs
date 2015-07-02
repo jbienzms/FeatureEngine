@@ -18,7 +18,8 @@ namespace VSFeatureEngine
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Export(typeof(IFeatureManager))]
-    public class FeatureManager : IFeatureManager
+    [Export(typeof(IFeatureAssetResolver))]
+    public class FeatureManager : IFeatureManager, IFeatureAssetResolver
     {
         #region Embedded Classes
         private class FMNamespace
@@ -87,7 +88,7 @@ namespace VSFeatureEngine
                     }
 
                     // Placeholder
-                    FeatureAction action = null;
+                    FeaturePacks.Action action = null;
 
                     switch (actionElement.Name.LocalName.ToLower())
                     {
@@ -198,7 +199,7 @@ namespace VSFeatureEngine
             }
         }
 
-        static private void LoadMetadata(LoadContext context, XElement element, MetadataBase metadata)
+        static private void LoadMetadata(LoadContext context, XElement element, Metadata metadata)
         {
             var ns = context.NameSpace;
             metadata.Id = (string)element.Attribute(ns.id);
@@ -243,6 +244,63 @@ namespace VSFeatureEngine
 
 
         #region Public Methods
+        public IAction GetAction(string featureId, string actionId)
+        {
+            // Get the feature
+            var feature = GetFeature(featureId);
+
+            // Try to find the action
+            var action = feature.Actions.Where(a => a.Id == actionId).FirstOrDefault();
+
+            // Verify we got the action
+            if (action == null) { throw new InvalidOperationException(string.Format(Strings.ActionWithIdNotFoundInFeatureId, actionId, featureId)); }
+
+            // Return
+            return action;
+        }
+
+        public IFeature GetFeature(string featureId)
+        {
+            // Try to get the feature
+            var feature = loadedPackages.SelectMany(p => p.Features).Where(f => f.Id == featureId).FirstOrDefault();
+
+            // Verify we got the feature
+            if (feature == null) { throw new InvalidOperationException(string.Format(Strings.FeatureWithIdNotFound, featureId)); }
+
+            // Return
+            return feature;
+        }
+
+        public IItemTemplate GetItemTemplate(string featureId, string templateId)
+        {
+            // Get the feature
+            var feature = GetFeature(featureId);
+
+            // Try to find the template
+            var template = feature.ItemTemplates.Where(t => t.Id == templateId).FirstOrDefault();
+
+            // Verify we got the template
+            if (template == null) { throw new InvalidOperationException(string.Format(Strings.ItemTemplateWithIdNotFoundInFeatureId, templateId, featureId)); }
+
+            // Return
+            return template;
+        }
+
+        public IProjectTemplate GetProjectTemplate(string featureId, string templateId)
+        {
+            // Get the feature
+            var feature = GetFeature(featureId);
+
+            // Try to find the template
+            var template = feature.ProjectTemplates.Where(t => t.Id == templateId).FirstOrDefault();
+
+            // Verify we got the template
+            if (template == null) { throw new InvalidOperationException(string.Format(Strings.ProjectTemplateWithIdNotFoundInFeatureId, templateId, featureId)); }
+
+            // Return
+            return template;
+        }
+
         public void LoadPackage(string packagePath)
         {
             // Validate Parameters

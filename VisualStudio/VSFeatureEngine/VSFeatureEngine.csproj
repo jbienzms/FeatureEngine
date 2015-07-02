@@ -74,15 +74,17 @@
     <Compile Include="Constants.cs" />
     <Compile Include="FeaturePacks\Feature.cs" />
     <Compile Include="FeaturePacks\FeatureExtension.cs" />
-    <Compile Include="FeaturePacks\MetadataBase.cs" />
+    <Compile Include="FeaturePacks\ProjectTemplate.cs" />
+    <Compile Include="FeaturePacks\ItemTemplate.cs" />
+    <Compile Include="FeaturePacks\Metadata.cs" />
     <Compile Include="Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Workflow\WhatIfExtension.cs" />
-    <Compile Include="FeaturePacks\FeatureAction.cs" />
-    <Compile Include="FeaturePacks\FeatureActionContext.cs" />
+    <Compile Include="FeaturePacks\Action.cs" />
+    <Compile Include="FeaturePacks\ExecutionContext.cs" />
     <Compile Include="FeaturePacks\FeaturePack.cs" />
     <Compile Include="Workflow\WorkflowFeatureAction.cs" />
     <Compile Include="Services\FeatureManager.cs" />

@@ -9,19 +9,16 @@ namespace Microsoft.FeatureEngine
     /// <summary>
     /// The interface for an action that can be performed as part of a feature.
     /// </summary>
-    public interface IFeatureAction
+    public interface IAction : IMetadata
     {
-        /// <summary>
-        /// Gets the name of the action.
-        /// </summary>
-        string Id { get; }
-
+        #region Public Properties
         /// <summary>
         /// Executes the action.
         /// </summary>
         /// <param name="context">
         /// The context for the operation.
         /// </param>
-        void Execute(IFeatureActionContext context);
+        void Execute(IExecutionContext context);
+        #endregion // Public Properties
     }
 }

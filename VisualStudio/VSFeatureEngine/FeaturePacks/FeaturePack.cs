@@ -11,7 +11,7 @@ namespace VSFeatureEngine.FeaturePacks
     /// <summary>
     /// Represents a feature pack.
     /// </summary>
-    public class FeaturePack : MetadataBase, IFeaturePackMetadata
+    public class FeaturePack : Metadata, IFeaturePack
     {
         #region Constructors
         public FeaturePack()
@@ -34,7 +34,7 @@ namespace VSFeatureEngine.FeaturePacks
         #endregion // Public Properties
 
         #region IFeaturePackMetadata Implementation
-        IEnumerable<string> IFeaturePackMetadata.Authors
+        IEnumerable<string> IFeaturePack.Authors
         {
             get
             {
@@ -42,7 +42,7 @@ namespace VSFeatureEngine.FeaturePacks
             }
         }
 
-        IEnumerable<IFeatureMetadata> IFeaturePackMetadata.Features
+        IEnumerable<IFeature> IFeaturePack.Features
         {
             get
             {

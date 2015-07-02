@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Microsoft.FeatureEngine
 {
     /// <summary>
-    /// Provides context information for a feature action.
+    /// Provides context about the environment during execution. Primarily used in <see cref="IAction.Execute"/>.
     /// </summary>
-    public interface IFeatureActionContext
+    public interface IExecutionContext
     {
         /// <summary>
         /// Gets a value that indicates if the action is being run in interactive mode.

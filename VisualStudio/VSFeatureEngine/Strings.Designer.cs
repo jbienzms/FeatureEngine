@@ -61,6 +61,15 @@ namespace VSFeatureEngine {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An Action with the ID &apos;{0}&apos; could not be found in Feature &apos;{1}&apos;..
+        /// </summary>
+        internal static string ActionWithIdNotFoundInFeatureId {
+            get {
+                return ResourceManager.GetString("ActionWithIdNotFoundInFeatureId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not enable feature pack.
         /// </summary>
         internal static string CouldNotEnableFeaturePack {
@@ -79,6 +88,15 @@ namespace VSFeatureEngine {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A Feature with the ID &apos;{0}&apos; could not be found..
+        /// </summary>
+        internal static string FeatureWithIdNotFound {
+            get {
+                return ResourceManager.GetString("FeatureWithIdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The path &apos;{0}&apos; is not valid..
         /// </summary>
         internal static string InvalidPath {
@@ -88,11 +106,29 @@ namespace VSFeatureEngine {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An Item Template with the ID &apos;{0}&apos; could not be found in Feature &apos;{1}&apos;..
+        /// </summary>
+        internal static string ItemTemplateWithIdNotFoundInFeatureId {
+            get {
+                return ResourceManager.GetString("ItemTemplateWithIdNotFoundInFeatureId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A feature pack manifest ({0}) could not be found at the path &apos;{1}&apos;..
         /// </summary>
         internal static string MissingFeatureManifestAtPath {
             get {
                 return ResourceManager.GetString("MissingFeatureManifestAtPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A Project Template with the ID &apos;{0}&apos; could not be found in Feature &apos;{1}&apos;..
+        /// </summary>
+        internal static string ProjectTemplateWithIdNotFoundInFeatureId {
+            get {
+                return ResourceManager.GetString("ProjectTemplateWithIdNotFoundInFeatureId", resourceCulture);
             }
         }
         

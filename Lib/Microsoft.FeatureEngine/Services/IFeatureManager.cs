@@ -18,7 +18,7 @@ namespace Microsoft.FeatureEngine
         /// <param name="package">
         /// The package that the event relates to.
         /// </param>
-        public FeaturePackEventArgs(IFeaturePackMetadata package)
+        public FeaturePackEventArgs(IFeaturePack package)
         {
             // Validate
             if (package == null) throw new ArgumentNullException("package");
@@ -30,7 +30,7 @@ namespace Microsoft.FeatureEngine
         /// <summary>
         /// Gets the package that the event relates to.
         /// </summary>
-        public IFeaturePackMetadata Package { get; private set; }
+        public IFeaturePack Package { get; private set; }
     }
 
     /// <summary>

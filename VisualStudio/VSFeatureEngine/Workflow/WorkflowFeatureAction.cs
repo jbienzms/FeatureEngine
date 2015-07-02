@@ -11,9 +11,9 @@ using VSFeatureEngine.FeaturePacks;
 namespace VSFeatureEngine.Workflow
 {
     /// <summary>
-    /// A <see cref="FeatureAction"/> that executes a workflow.
+    /// A <see cref="Action"/> that executes a workflow.
     /// </summary>
-    public class WorkflowFeatureAction : FeatureAction
+    public class WorkflowFeatureAction : FeaturePacks.Action
     {
         #region Member Variables
         private Activity activity;
@@ -95,7 +95,7 @@ namespace VSFeatureEngine.Workflow
         #endregion // Overridables / Event Triggers
 
         #region Overrides / Event Handlers
-        public override void Execute(IFeatureActionContext context)
+        public override void Execute(IExecutionContext context)
         {
             // Update the reference to the service container in case it changes
             serviceContainer = context.ServiceContainer;
