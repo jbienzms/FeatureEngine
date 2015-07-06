@@ -16,7 +16,7 @@ namespace VSFeatureEngine.FeaturePacks
         #region Constructors
         public Feature()
         {
-            Actions = new Collection<Action>();
+            Actions = new Collection<FeatureAction>();
             Extensions = new Collection<FeatureExtension>();
             ItemTemplates = new Collection<ItemTemplate>();
             ProjectTemplates = new Collection<ProjectTemplate>();
@@ -24,7 +24,7 @@ namespace VSFeatureEngine.FeaturePacks
         #endregion // Constructors
 
         #region Public Properties
-        public Collection<Action> Actions { get; set; }
+        public Collection<FeatureAction> Actions { get; set; }
 
         public Collection<FeatureExtension> Extensions { get; set; }
 
@@ -34,7 +34,7 @@ namespace VSFeatureEngine.FeaturePacks
         #endregion // Public Properties
 
         #region IFeatureMetadata Implementation
-        IEnumerable<IAction> IFeature.Actions
+        IEnumerable<IFeatureAction> IFeature.Actions
         {
             get
             {

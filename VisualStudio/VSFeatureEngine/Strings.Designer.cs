@@ -70,6 +70,15 @@ namespace VSFeatureEngine {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not complete action..
+        /// </summary>
+        internal static string CouldNotCompleteAction {
+            get {
+                return ResourceManager.GetString("CouldNotCompleteAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not enable feature pack.
         /// </summary>
         internal static string CouldNotEnableFeaturePack {

@@ -23,7 +23,7 @@ namespace Microsoft.FeatureEngine
         /// <returns>
         /// The action.
         /// </returns>
-        IAction GetAction(string featureId, string actionId);
+        IFeatureAction GetAction(string featureId, string actionId);
 
         /// <summary>
         /// Gets a feature.

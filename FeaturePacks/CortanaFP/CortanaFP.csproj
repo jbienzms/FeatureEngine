@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="envdte, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
     <Reference Include="System.Core" />
@@ -63,10 +66,6 @@
     <Folder Include="Assets\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Lib\Microsoft.FeatureEngine.VisualStudio\Microsoft.FeatureEngine.VisualStudio.csproj">
-      <Project>{d0fd567c-97ce-4108-a3b3-f9dbd4f45821}</Project>
-      <Name>Microsoft.FeatureEngine.VisualStudio</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Lib\Microsoft.FeatureEngine\Microsoft.FeatureEngine.csproj">
       <Project>{2a326528-f994-4b19-9c12-1e1b604e7c6b}</Project>
       <Name>Microsoft.FeatureEngine</Name>
@@ -80,7 +79,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>nuget pack $(ProjectName).nuspec  -NoPackageAnalysis
+    <PostBuildEvent>nuget pack $(ProjectName).nuspec -NoPackageAnalysis
 COPY /Y *.nupkg $(SolutionDir)Gallery</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

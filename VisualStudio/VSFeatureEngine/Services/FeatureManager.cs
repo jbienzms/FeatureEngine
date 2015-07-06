@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using EnvDTE;
 using Microsoft.FeatureEngine;
 using VSFeatureEngine.FeaturePacks;
 using VSFeatureEngine.Workflow;
@@ -60,6 +61,8 @@ namespace VSFeatureEngine
         }
         #endregion // Embedded Classes
 
+        #region Static Version
+        #region Internal Methods
         private static void LoadActions(LoadContext context, XElement featureElement, Feature feature)
         {
             var ns = context.NameSpace;
@@ -88,7 +91,7 @@ namespace VSFeatureEngine
                     }
 
                     // Placeholder
-                    FeaturePacks.Action action = null;
+                    FeatureAction action = null;
 
                     switch (actionElement.Name.LocalName.ToLower())
                     {
@@ -206,7 +209,10 @@ namespace VSFeatureEngine
             metadata.Title = (string)element.Attribute(ns.title);
             metadata.Description = (string)element.Attribute(ns.description);
         }
+        #endregion // Internal Methods
+        #endregion // Static Version
 
+        #region Instance Version
         #region Member Variables
         private Collection<FeaturePack> loadedPackages = new Collection<FeaturePack>();
         #endregion // Member Variables
@@ -215,18 +221,6 @@ namespace VSFeatureEngine
 
         protected virtual void OnPackageLoaded(FeaturePack pack)
         {
-            // Make sure actions are registered in all actions menu
-            var actions = ActionsMenu.Instance.Actions;
-            foreach (var feature in pack.Features)
-            {
-                foreach (var action in feature.Actions)
-                {
-                    if (!actions.Contains(action))
-                    {
-                        actions.Add(action);
-                    }
-                }
-            }
             if (PackageLoaded != null)
             {
                 PackageLoaded(this, new FeaturePackEventArgs(pack));
@@ -244,7 +238,17 @@ namespace VSFeatureEngine
 
 
         #region Public Methods
-        public IAction GetAction(string featureId, string actionId)
+        public void Associate(string packageId, Project project)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dissociate(string packageId, Project project)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IFeatureAction GetAction(string featureId, string actionId)
         {
             // Get the feature
             var feature = GetFeature(featureId);
@@ -284,6 +288,16 @@ namespace VSFeatureEngine
 
             // Return
             return template;
+        }
+
+        public IEnumerable<IFeaturePack> GetPackages()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IFeaturePack> GetPackages(Project project)
+        {
+            throw new NotImplementedException();
         }
 
         public IProjectTemplate GetProjectTemplate(string featureId, string templateId)
@@ -367,8 +381,11 @@ namespace VSFeatureEngine
         #endregion // Public Methods
 
         #region Public Events
+        public event EventHandler<FeaturePackAssociationEventArgs> PackageAssociated;
+        public event EventHandler<FeaturePackAssociationEventArgs> PackageDisassociated;
         public event EventHandler<FeaturePackEventArgs> PackageLoaded;
         public event EventHandler<FeaturePackEventArgs> PackageUnloaded;
         #endregion // Public Events
+        #endregion // Instance Version
     }
 }

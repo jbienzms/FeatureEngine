@@ -24,6 +24,7 @@
 using System;
 using System.ComponentModel.Design;
 using System.Globalization;
+using Microsoft.FeatureEngine;
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -60,7 +61,7 @@ namespace VSFeatureEngine
 
             this.package = package;
 
-            OleMenuCommandService commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            OleMenuCommandService commandService = ServiceStore.GetService<IMenuCommandService>() as OleMenuCommandService;
             if (commandService != null)
             {
                 CommandID menuCommandID = new CommandID(MenuGuids.FeatureEngineCommandSet, CommandId);
@@ -80,13 +81,13 @@ namespace VSFeatureEngine
         }
 
         /// <summary>
-        /// Gets the service provider from the owner package.
+        /// Gets the service store from the owner package.
         /// </summary>
-        private IServiceProvider ServiceProvider
+        private IServiceStore ServiceStore
         {
             get
             {
-                return this.package;
+                return (IServiceStore)((IServiceProvider)this.package).GetService(typeof(IServiceStore));
             }
         }
 
@@ -141,8 +142,7 @@ namespace VSFeatureEngine
 
         private void AddNuGet(object sender, EventArgs e)
         {
-            var componentModel = (IComponentModel)ServiceProvider.GetService(typeof(SComponentModel));
-            var installer = componentModel.GetService<IVsPackageInstaller>();
+            var installer = ServiceStore.GetService<IVsPackageInstaller>();
             // var installedPackages = installerServices.GetInstalledPackages();
             // installer.InstallPackage(null, ?, "Newtonsoft.Json", "6.0.8", false);
             

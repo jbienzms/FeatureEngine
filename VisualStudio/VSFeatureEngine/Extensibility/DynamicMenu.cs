@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.FeatureEngine;
 using Microsoft.VisualStudio.Shell;
 
 namespace VSFeatureEngine
@@ -31,7 +32,7 @@ namespace VSFeatureEngine
             DynamicMenuCommand dynamicMenuCommand = new DynamicMenuCommand(startCommandId, IsValidItem, ItemInvoked, BeforeQueryStatus);
 
             // Get the command service
-            OleMenuCommandService commandService = this.ServiceProvider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            OleMenuCommandService commandService = ServiceStore.GetService<IMenuCommandService>() as OleMenuCommandService;
 
             // Add it to the command service
             commandService.AddCommand(dynamicMenuCommand);
@@ -92,15 +93,14 @@ namespace VSFeatureEngine
         protected abstract IList<T> Items { get; }
 
         /// <summary>
-        /// Gets the service provider from the owner package.
+        /// Gets the service store from the owner package.
         /// </summary>
-        protected IServiceProvider ServiceProvider
+        protected IServiceStore ServiceStore
         {
             get
             {
-                return this.package;
+                return (IServiceStore)((IServiceProvider)this.package).GetService(typeof(IServiceStore));
             }
         }
-
     }
 }

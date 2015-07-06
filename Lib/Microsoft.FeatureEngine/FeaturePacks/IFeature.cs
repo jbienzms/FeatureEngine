@@ -15,7 +15,7 @@ namespace Microsoft.FeatureEngine
         /// <summary>
         /// Gets the actions in the package.
         /// </summary>
-        IEnumerable<IAction> Actions { get; }
+        IEnumerable<IFeatureAction> Actions { get; }
 
         /// <summary>
         /// Gets the item templates in the package.

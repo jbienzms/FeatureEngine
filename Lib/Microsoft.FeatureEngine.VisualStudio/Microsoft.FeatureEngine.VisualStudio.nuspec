@@ -18,6 +18,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Microsoft.FeatureEngine.VisualStudio.dll" target="lib\net45\Microsoft.FeatureEngine.VisualStudio.dll" />
+    <file src="Microsoft.FeatureEngine.VisualStudio.1.0.0b1.dll" target="lib\net45\Microsoft.FeatureEngine.VisualStudio.1.0.0b1.dll" />
   </files>
 </package>

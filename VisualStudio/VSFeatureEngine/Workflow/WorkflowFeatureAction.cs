@@ -11,14 +11,14 @@ using VSFeatureEngine.FeaturePacks;
 namespace VSFeatureEngine.Workflow
 {
     /// <summary>
-    /// A <see cref="Action"/> that executes a workflow.
+    /// A <see cref="FeatureAction"/> that executes a workflow.
     /// </summary>
-    public class WorkflowFeatureAction : FeaturePacks.Action
+    public class WorkflowFeatureAction : FeatureAction
     {
         #region Member Variables
         private Activity activity;
         private Type activityType;
-        private IServiceContainer serviceContainer;
+        private IServiceStore serviceStore;
         private WhatIfExtension whatIfExtension;
         private WorkflowApplication wfApp;
         #endregion // Member Variables
@@ -62,7 +62,7 @@ namespace VSFeatureEngine.Workflow
             whatIfExtension = new WhatIfExtension();
 
             // Add extensions
-            wfApp.Extensions.Add<IServiceContainer>(() => serviceContainer);
+            wfApp.Extensions.Add<IServiceStore>(() => serviceStore);
             wfApp.Extensions.Add<IWhatIfExtension>(() => whatIfExtension);
         }
         #endregion // Internal Methods
@@ -97,8 +97,8 @@ namespace VSFeatureEngine.Workflow
         #region Overrides / Event Handlers
         public override void Execute(IExecutionContext context)
         {
-            // Update the reference to the service container in case it changes
-            serviceContainer = context.ServiceContainer;
+            // Update the reference to the service store in case it changes
+            serviceStore = context.ServiceStore;
 
             // Ensure that workflow has been initialized
             EnsureWFInitialized();

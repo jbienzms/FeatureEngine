@@ -6,12 +6,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.FeatureEngine;
 using Microsoft.VisualStudio.Shell;
 using VSFeatureEngine.FeaturePacks;
 
 namespace VSFeatureEngine
 {
-    public class ActionsMenu : DynamicMenu<FeaturePacks.Action>
+    public class ActionsMenu : DynamicMenu<IFeatureAction>
     {
         #region Static Version
         #region Constants
@@ -47,26 +48,34 @@ namespace VSFeatureEngine
 
         #region Instance Version
         #region Member Variables
-        private Collection<FeaturePacks.Action> actions;
+        private Collection<IFeatureAction> actions;
+        private ExecutionContext context;
         #endregion // Member Variables
 
         public ActionsMenu(Package package) : base(package, MenuGuids.FeatureEngineCommandSet, StartCommandId)
         {
-            actions = new Collection<FeaturePacks.Action>();
+            actions = new Collection<IFeatureAction>();
+            
+            // Create the execution context
+            context = new ExecutionContext(ServiceStore);
         }
 
         #region Overrides / Event Handlers
-        protected override string GetItemTitle(FeaturePacks.Action item)
+        protected override string GetItemTitle(IFeatureAction item)
         {
             return item.Title;
         }
 
-        protected override void OnItemInvoked(FeaturePacks.Action item)
+        protected override void OnItemInvoked(IFeatureAction item)
         {
             Debug.WriteLine("Invoked: " + item.Title);
+            TaskHelper.RunWithErrorHandling(() =>
+            {
+                item.Execute(context);
+            }, TaskRunOptions.WithFailure(Strings.CouldNotCompleteAction));
         }
 
-        protected override IList<FeaturePacks.Action> Items
+        protected override IList<IFeatureAction> Items
         {
             get
             {
@@ -75,7 +84,7 @@ namespace VSFeatureEngine
         }
         #endregion // Overrides / Event Handlers
 
-        public Collection<FeaturePacks.Action> Actions { get { return actions; } }
+        public Collection<IFeatureAction> Actions { get { return actions; } }
         #endregion // Instance Version
     }
 }

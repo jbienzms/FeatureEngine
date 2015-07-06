@@ -77,18 +77,20 @@
     <Compile Include="FeaturePacks\ProjectTemplate.cs" />
     <Compile Include="FeaturePacks\ItemTemplate.cs" />
     <Compile Include="FeaturePacks\Metadata.cs" />
+    <Compile Include="Packages\SolutionWatcher.cs" />
+    <Compile Include="Services\VSAssetResolver.cs" />
     <Compile Include="Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Workflow\WhatIfExtension.cs" />
-    <Compile Include="FeaturePacks\Action.cs" />
+    <Compile Include="FeaturePacks\FeatureAction.cs" />
     <Compile Include="FeaturePacks\ExecutionContext.cs" />
     <Compile Include="FeaturePacks\FeaturePack.cs" />
     <Compile Include="Workflow\WorkflowFeatureAction.cs" />
     <Compile Include="Services\FeatureManager.cs" />
-    <Compile Include="Services\ServiceContainer.cs" />
+    <Compile Include="Services\ServiceStore.cs" />
     <Compile Include="Views\ManageFeaturesDialog.xaml.cs">
       <DependentUpon>ManageFeaturesDialog.xaml</DependentUpon>
     </Compile>

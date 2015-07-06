@@ -9,7 +9,7 @@ namespace Microsoft.FeatureEngine
     /// <summary>
     /// The interface for an action that can be performed as part of a feature.
     /// </summary>
-    public interface IAction : IMetadata
+    public interface IFeatureAction : IMetadata
     {
         #region Public Properties
         /// <summary>

@@ -1,8 +1,10 @@
 ﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="CortanaFP.Activities.AddCortanaSupport" sap2010:ExpressionActivityEditor.ExpressionActivityEditor="C#" sap2010:WorkflowViewState.IdRef="CortanaFP.Activities.AddCortanaSupport_1"
  xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:e="clr-namespace:EnvDTE;assembly=EnvDTE"
  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
  xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
- xmlns:mf="clr-namespace:Microsoft.FeatureEngine.Activities;assembly=Microsoft.FeatureEngine"
+ xmlns:mfe="clr-namespace:Microsoft.FeatureEngine;assembly=Microsoft.FeatureEngine.1.0.0b1"
+ xmlns:mfea="clr-namespace:Microsoft.FeatureEngine.Activities;assembly=Microsoft.FeatureEngine.1.0.0b1"
  xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
  xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
  xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
@@ -16,46 +18,69 @@
       <x:String>System.Data</x:String>
       <x:String>System.Linq</x:String>
       <x:String>System.Text</x:String>
+      <x:String>EnvDTE</x:String>
+      <x:String>Microsoft.FeatureEngine</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
     <sco:Collection x:TypeArguments="AssemblyReference">
       <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
       <AssemblyReference>System.Xml.Linq</AssemblyReference>
       <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
       <AssemblyReference>Microsoft.CSharp</AssemblyReference>
       <AssemblyReference>System.Data</AssemblyReference>
       <AssemblyReference>System.Net.Http</AssemblyReference>
       <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>Microsoft.FeatureEngine.VisualStudio</AssemblyReference>
       <AssemblyReference>Microsoft.FeatureEngine</AssemblyReference>
-      <AssemblyReference>System.Activities</AssemblyReference>
-      <AssemblyReference>System.ServiceModel</AssemblyReference>
-      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
-      <AssemblyReference>System.Xaml</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>EnvDTE</AssemblyReference>
       <AssemblyReference>CortanaFP</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
-      <Variable x:TypeArguments="x:String" Name="output" />
+      <Variable x:TypeArguments="e:Project" Name="Project" />
+      <Variable x:TypeArguments="mfe:ProjectInfo" Name="ProjectInfo" />
     </Sequence.Variables>
-    <mf:GetProjectName sap2010:WorkflowViewState.IdRef="GetProjectName_2">
-    </mf:GetProjectName>
-    <sads:DebugSymbol.Symbol>d2VDOlxVc2Vyc1xqYmllbnpcQ29kZVxNaWNyb3NvZnRcRmVhdHVyZUVuZ2luZVxGZWF0dXJlUGFja3NcQ29ydGFuYUZQXEFjdGl2aXRpZXNcQWRkQ29ydGFuYVN1cHBvcnQueGFtbAMoAzQOAgEBLAUyGQIBAi8LL1cCAQM=</sads:DebugSymbol.Symbol>
+    <mfea:GetActiveProject sap2010:WorkflowViewState.IdRef="GetActiveProject_1">
+      <mfea:GetActiveProject.Project>
+        <OutArgument x:TypeArguments="e:Project">
+          <mca:CSharpReference x:TypeArguments="e:Project">Project</mca:CSharpReference>
+        </OutArgument>
+      </mfea:GetActiveProject.Project>
+    </mfea:GetActiveProject>
+    <mfea:GetProjectInfo sap2010:WorkflowViewState.IdRef="GetProjectInfo_1">
+      <mfea:GetProjectInfo.Info>
+        <OutArgument x:TypeArguments="mfe:ProjectInfo">
+          <mca:CSharpReference x:TypeArguments="mfe:ProjectInfo">ProjectInfo</mca:CSharpReference>
+        </OutArgument>
+      </mfea:GetProjectInfo.Info>
+      <mfea:GetProjectInfo.Project>
+        <InArgument x:TypeArguments="e:Project">
+          <mca:CSharpValue x:TypeArguments="e:Project">Project</mca:CSharpValue>
+        </InArgument>
+      </mfea:GetProjectInfo.Project>
+    </mfea:GetProjectInfo>
+    <sads:DebugSymbol.Symbol>d2VDOlxVc2Vyc1xqYmllbnpcQ29kZVxNaWNyb3NvZnRcRmVhdHVyZUVuZ2luZVxGZWF0dXJlUGFja3NcQ29ydGFuYUZQXEFjdGl2aXRpZXNcQWRkQ29ydGFuYVN1cHBvcnQueGFtbAYuA0cOAgEBMwU5HQIBCToFRRsCAQI2CzZZAgEKQgtCUQIBBj0LPWMCAQM=</sads:DebugSymbol.Symbol>
   </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
-      <sap2010:ViewStateData Id="GetProjectName_2" sap:VirtualizedContainerService.HintSize="200,22" />
-      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="222,146">
+      <sap2010:ViewStateData Id="GetActiveProject_1" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="GetProjectInfo_1" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="222,208">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="CortanaFP.Activities.AddCortanaSupport_1" sap:VirtualizedContainerService.HintSize="262,226" />
+      <sap2010:ViewStateData Id="CortanaFP.Activities.AddCortanaSupport_1" sap:VirtualizedContainerService.HintSize="262,288" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>

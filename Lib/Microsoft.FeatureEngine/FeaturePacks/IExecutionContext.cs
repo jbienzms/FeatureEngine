@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Microsoft.FeatureEngine
 {
     /// <summary>
-    /// Provides context about the environment during execution. Primarily used in <see cref="IAction.Execute"/>.
+    /// Provides context about the environment during execution. Primarily used in <see cref="IFeatureAction.Execute"/>.
     /// </summary>
     public interface IExecutionContext
     {
@@ -25,8 +25,8 @@ namespace Microsoft.FeatureEngine
         bool IsInteractive { get; }
 
         /// <summary>
-        /// Gets the service container for the action.
+        /// Gets the service store for the action.
         /// </summary>
-        IServiceContainer ServiceContainer { get; }
+        IServiceStore ServiceStore { get; }
     }
 }

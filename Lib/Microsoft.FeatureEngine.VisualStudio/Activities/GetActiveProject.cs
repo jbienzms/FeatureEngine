@@ -20,12 +20,12 @@ namespace Microsoft.FeatureEngine.VisualStudio.Activities
         private Project GetBySelection(DTE dte)
         {
             // Get project array
-            Project[] projects = dte.ActiveSolutionProjects;
+            Array projs = dte.ActiveSolutionProjects as Array;
 
             // Make sure we got an array and it has at least one item
-            if ((projects != null) && (projects.Length > 0))
+            if ((projs != null) && (projs.Length > 0))
             {
-                return projects[0];
+                return projs.GetValue(0) as Project;
             }
             else
             {
@@ -39,11 +39,13 @@ namespace Microsoft.FeatureEngine.VisualStudio.Activities
             var doc = dte.ActiveDocument;
 
             // Make sure we got the document
+            if (doc == null) { return null; }
 
             // Get the project item
             var projItem = doc.ProjectItem;
 
             // Make sure we got the project item
+            if (projItem == null) { return null; }
 
             // Get the containing project
             return projItem.ContainingProject;
@@ -55,18 +57,25 @@ namespace Microsoft.FeatureEngine.VisualStudio.Activities
             var dte = GetService<DTE>(context);
 
             // Make sure we got the DTE
+            if (dte == null) { throw new MissingServiceException<DTE>(); }
 
-            
-            // Make sure we got the project
+            // Try to get by selection
+            var proj = GetBySelection(dte);
 
-            // dte.Solution.ac
-            // Microsoft.CodeAnalysis.Workspace.GetWorkspaceRegistration()
-            //// Get the workspace
-            //var workspace = GetService<VisualStudioWorkspace>(context);
-            
-            //// Get the active project
-            //workspace.GetHierarchy()
+            // If not found, try to get by active document
+            if (proj == null)
+            {
+                proj = GetByOpenDocument(dte);
+            }
 
+            // If still not found, task failed
+            if (proj == null)
+            {
+                throw new ActivityFailureException(Strings.FailureFindingActiveProject);
+            }
+
+            // Success
+            Project.Set(context, proj);
         }
 
         public OutArgument<Project> Project { get; set; }

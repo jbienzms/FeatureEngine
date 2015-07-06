@@ -14,11 +14,11 @@
     <releaseNotes>Testing Releases</releaseNotes>
     <tags>FeaturePack, Cortana</tags>
     <dependencies>
-      <dependency id="Microsoft.FeatureEngine.VisualStudio" version="1.0.0-beta1" />
     </dependencies>
   </metadata>
   <files>
     <file src="Package.fpmanifest" target="tools\FeaturePack\Package.fpmanifest" />
+    <file src="Microsoft.FeatureEngine.1.0.0b1.dll" target="tools\FeaturePack\Extensions\Microsoft.FeatureEngine.1.0.0b1.dll" />
     <file src="CortanaFP.dll" target="tools\FeaturePack\Extensions\CortanaFP.dll" />
     <file src="ItemTemplates\VoiceCommands.xml.t4" target="tools\FeaturePack\ItemTemplates\VoiceCommands.xml.t4" />
   </files>

@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.FeatureEngine</RootNamespace>
-    <AssemblyName>Microsoft.FeatureEngine</AssemblyName>
+    <AssemblyName>Microsoft.FeatureEngine.1.0.0b1</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,6 +36,18 @@
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="envdte, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="envdte100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="envdte80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="envdte90, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Activities" />
@@ -47,23 +59,56 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="VSLangProj, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="VSLangProj100, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="VSLangProj110, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="VSLangProj140, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="VSLangProj2, Version=7.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="VSLangProj80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="VSLangProj90, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activities\FeatureActivity.cs" />
+    <Compile Include="Activities\GetActiveProject.cs" />
+    <Compile Include="Activities\GetProjectInfo.cs" />
     <Compile Include="Activities\WhatIfActivity.cs" />
+    <Compile Include="Entities\ProjectInfo.cs" />
+    <Compile Include="Exceptions\MissingServiceException.cs" />
+    <Compile Include="Exceptions\ActivityFailureException.cs" />
     <Compile Include="Extensions\TaskHelper.cs" />
-    <Compile Include="Activities\GetProjectName.cs" />
     <Compile Include="FeaturePacks\IFeature.cs" />
     <Compile Include="FeaturePacks\IFeaturePack.cs" />
-    <Compile Include="FeaturePacks\IAction.cs" />
+    <Compile Include="FeaturePacks\IFeatureAction.cs" />
     <Compile Include="FeaturePacks\IExecutionContext.cs" />
     <Compile Include="FeaturePacks\IItemTemplate.cs" />
     <Compile Include="FeaturePacks\IMetadata.cs" />
     <Compile Include="FeaturePacks\IProjectTemplate.cs" />
+    <Compile Include="Services\FeaturePackAssociationEventArgs.cs" />
+    <Compile Include="Services\FeaturePackEventArgs.cs" />
     <Compile Include="Services\IFeatureAssetResolver.cs" />
     <Compile Include="Services\IFeatureManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IServiceContainer.cs" />
+    <Compile Include="Services\IServiceStore.cs" />
+    <Compile Include="Services\IVSAssetResolver.cs" />
+    <Compile Include="Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Workflow\IWhatIfExtension.cs" />
     <Compile Include="Workflow\WhatIfExecutionResult.cs" />
   </ItemGroup>
@@ -73,9 +118,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Strings.resx">
+      <Generator>ResxFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>nuget pack $(ProjectName).nuspec
+    <PostBuildEvent>nuget pack $(ProjectName).nuspec -NoPackageAnalysis
 COPY /Y *.nupkg $(SolutionDir)Gallery</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

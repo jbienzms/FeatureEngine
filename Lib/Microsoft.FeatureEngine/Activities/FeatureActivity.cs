@@ -30,7 +30,7 @@ namespace Microsoft.FeatureEngine.Activities
         static protected T GetService<T>(CodeActivityContext context) where T:class
         {
             if (context == null) throw new ArgumentNullException("context");
-            return context.GetExtension<IServiceContainer>().GetService<T>();
+            return context.GetExtension<IServiceStore>().GetService<T>();
         }
         #endregion // Internal Methods
         #endregion // Static Version
@@ -53,7 +53,7 @@ namespace Microsoft.FeatureEngine.Activities
         protected override void CacheMetadata(CodeActivityMetadata metadata)
         {
             base.CacheMetadata(metadata);
-            metadata.RequireExtension<IServiceContainer>();
+            metadata.RequireExtension<IServiceStore>();
         }
         #endregion // Overrides / Event Handlers
 

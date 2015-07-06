@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Microsoft.FeatureEngine
 {
     /// <summary>
-    /// The interface for a service container.
+    /// The interface for service storage.
     /// </summary>
-    public interface IServiceContainer
+    public interface IServiceStore
     {
         /// <summary>
         /// Gets the service of the specified type.

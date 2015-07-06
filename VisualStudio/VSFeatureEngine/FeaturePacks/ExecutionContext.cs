@@ -9,13 +9,13 @@ namespace VSFeatureEngine.FeaturePacks
 {
     public class ExecutionContext : IExecutionContext
     {
-        public ExecutionContext(IServiceContainer serviceContainer)
+        public ExecutionContext(IServiceStore serviceStore)
         {
             // Validate
-            if (serviceContainer == null) throw new ArgumentNullException("serviceContainer");
+            if (serviceStore == null) throw new ArgumentNullException("serviceContainer");
 
             // Store
-            this.ServiceContainer = serviceContainer;
+            this.ServiceStore = serviceStore;
 
             // Defualts
             IsInteractive = true;
@@ -23,6 +23,6 @@ namespace VSFeatureEngine.FeaturePacks
 
         public bool IsInteractive { get; set; }
 
-        public IServiceContainer ServiceContainer { get; }
+        public IServiceStore ServiceStore { get; }
     }
 }

@@ -17,6 +17,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Microsoft.FeatureEngine.dll" target="lib\net45\Microsoft.FeatureEngine.dll" />
+    <file src="Microsoft.FeatureEngine.1.0.0b1.dll" target="lib\net45\Microsoft.FeatureEngine.1.0.0b1.dll" />
   </files>
 </package>
