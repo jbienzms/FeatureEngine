@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,25 +11,36 @@ using Microsoft.VisualStudio.Shell;
 
 namespace VSFeatureEngine
 {
+    [Export(typeof(ServiceStore))]
+    [Export(typeof(IServiceStore))]
     public class ServiceStore : IServiceStore
     {
         #region Member Variables
         private IComponentModel componentModel;
+        private IServiceContainer container;
         private IServiceProvider provider;
         #endregion // Member Variables
 
-        public ServiceStore(IServiceProvider provider)
+        public ServiceStore()
+        {
+        }
+
+        public void Initialize(Package package)
         {
             // Validate
-            if (provider == null) throw new ArgumentNullException("provider");
+            if (package == null) throw new ArgumentNullException("package");
 
             // Store
-            this.provider = provider;
+            this.container = (IServiceContainer)package;
+            this.provider = (IServiceProvider)package;
 
             // Try to get component model
             this.componentModel = provider.GetService(typeof(SComponentModel)) as IComponentModel;
+
+            // Register with regular service container
+            container.AddService(typeof(IServiceStore), this);
         }
-        
+
         public T GetService<T>() where T:class
         {
             // Placeholder
@@ -42,11 +54,14 @@ namespace VSFeatureEngine
             catch (Exception) { }
 
             // Try regular service provider next
-            try
+            if (service == null)
             {
-                service = provider.GetService(typeof(T)) as T;
+                try
+                {
+                    service = provider.GetService(typeof(T)) as T;
+                }
+                catch (Exception) { }
             }
-            catch (Exception) { }
 
             // Try MEF next
             if ((service == null) && (componentModel != null))

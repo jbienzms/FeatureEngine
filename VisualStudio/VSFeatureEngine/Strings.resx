@@ -123,8 +123,17 @@
   <data name="CouldNotCompleteAction" xml:space="preserve">
     <value>Could not complete action.</value>
   </data>
-  <data name="CouldNotEnableFeaturePack" xml:space="preserve">
-    <value>Could not enable feature pack</value>
+  <data name="CouldNotDetermineFeaturesInProject" xml:space="preserve">
+    <value>Could not determine features in the specified project.</value>
+  </data>
+  <data name="CouldNotLoadFeaturePack" xml:space="preserve">
+    <value>Could not load feature pack</value>
+  </data>
+  <data name="CouldNotUnloadAllPacks" xml:space="preserve">
+    <value>Could not unload all feature packs.</value>
+  </data>
+  <data name="CouldNotUnloadFeaturePack" xml:space="preserve">
+    <value>Could not unload feature pack.</value>
   </data>
   <data name="ExtensionIdNotFound" xml:space="preserve">
     <value>An extension with the id '{0}' was not found.</value>

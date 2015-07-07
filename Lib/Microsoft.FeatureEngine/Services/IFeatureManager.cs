@@ -15,34 +15,6 @@ namespace Microsoft.FeatureEngine
     {
         #region Public Methods
         /// <summary>
-        /// Asssociates a package with a project.
-        /// </summary>
-        /// <param name="packageId">
-        /// The ID of the package to associate.
-        /// </param>
-        /// <param name="project">
-        /// The project to associate the package with.
-        /// </param>
-        /// <remarks>
-        /// If the package is already associated, this method is ignored.
-        /// </remarks>
-        void Associate(string packageId, Project project);
-
-        /// <summary>
-        /// Disasssociates a package from a project.
-        /// </summary>
-        /// <param name="packageId">
-        /// The ID of the package to disassociate.
-        /// </param>
-        /// <param name="project">
-        /// The project to disassociate from the package.
-        /// </param>
-        /// <remarks>
-        /// If the package is not associated, this method is ignored.
-        /// </remarks>
-        void Dissociate(string packageId, Project project);
-
-        /// <summary>
         /// Get the list of feature packages in the current solution.
         /// </summary>
         IEnumerable<IFeaturePack> GetPackages();
@@ -54,25 +26,6 @@ namespace Microsoft.FeatureEngine
         /// The project to get associated packages from.
         /// </param>
         IEnumerable<IFeaturePack> GetPackages(Project project);
-
-        /// <summary>
-        /// Loads the feature package at the specified path.
-        /// </summary>
-        /// <param name="packagePath">
-        /// The path to the root of the package.
-        /// </param>
-        /// <remarks>
-        /// If the package is already loaded this method is ignored.
-        /// </remarks>
-        void LoadPackage(string packagePath);
-
-        /// <summary>
-        /// Unloads the package with the specified id.
-        /// </summary>
-        /// <param name="packageId">
-        /// The ID of the package to unload.
-        /// </param>
-        void UnloadPackage(string packageId);
         #endregion // Public Methods
 
 

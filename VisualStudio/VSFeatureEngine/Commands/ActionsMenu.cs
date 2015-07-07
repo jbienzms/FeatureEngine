@@ -12,7 +12,7 @@ using VSFeatureEngine.FeaturePacks;
 
 namespace VSFeatureEngine
 {
-    public class ActionsMenu : DynamicMenu<IFeatureAction>
+    public class ActionsMenu : ListDynamicMenu<IFeatureAction>
     {
         #region Static Version
         #region Constants

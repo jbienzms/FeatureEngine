@@ -37,10 +37,6 @@ namespace VSFeatureEngine
             // Add it to the command service
             commandService.AddCommand(dynamicMenuCommand);
         }
-        private bool IsInRange(int idx)
-        {
-            return ((idx > -1) && (idx < Items.Count));
-        }
 
         private bool IsValidItem(int commandId)
         {
@@ -56,7 +52,7 @@ namespace VSFeatureEngine
             int idx = ((commandId - startId) - 1);
             if (IsInRange(idx))
             {
-                OnItemInvoked(Items[idx]);
+                OnItemInvoked(GetItem(idx));
             }
         }
 
@@ -78,7 +74,7 @@ namespace VSFeatureEngine
                     matchedCommand.Visible = true;
 
                     // Get the item
-                    T item = Items[idx];
+                    T item = GetItem(idx);
 
                     // Set the title
                     matchedCommand.Text = GetItemTitle(item);
@@ -86,11 +82,13 @@ namespace VSFeatureEngine
             }
         }
 
+        protected abstract T GetItem(int idx);
+
         protected abstract string GetItemTitle(T item);
 
-        protected abstract void OnItemInvoked(T item);
+        protected abstract bool IsInRange(int idx);
 
-        protected abstract IList<T> Items { get; }
+        protected abstract void OnItemInvoked(T item);
 
         /// <summary>
         /// Gets the service store from the owner package.

@@ -66,6 +66,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Extensibility\ListDynamicMenu.cs" />
     <Compile Include="Extensibility\DynamicMenuCommand.cs" />
     <Compile Include="Extensibility\DynamicMenu.cs" />
     <Compile Include="Commands\ActionsMenu.cs" />
@@ -77,7 +78,7 @@
     <Compile Include="FeaturePacks\ProjectTemplate.cs" />
     <Compile Include="FeaturePacks\ItemTemplate.cs" />
     <Compile Include="FeaturePacks\Metadata.cs" />
-    <Compile Include="Packages\SolutionWatcher.cs" />
+    <Compile Include="Services\SolutionWatcher.cs" />
     <Compile Include="Services\VSAssetResolver.cs" />
     <Compile Include="Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>

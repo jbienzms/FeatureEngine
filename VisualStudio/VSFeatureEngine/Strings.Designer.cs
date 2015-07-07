@@ -79,11 +79,38 @@ namespace VSFeatureEngine {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not enable feature pack.
+        ///   Looks up a localized string similar to Could not determine features in the specified project..
         /// </summary>
-        internal static string CouldNotEnableFeaturePack {
+        internal static string CouldNotDetermineFeaturesInProject {
             get {
-                return ResourceManager.GetString("CouldNotEnableFeaturePack", resourceCulture);
+                return ResourceManager.GetString("CouldNotDetermineFeaturesInProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not load feature pack.
+        /// </summary>
+        internal static string CouldNotLoadFeaturePack {
+            get {
+                return ResourceManager.GetString("CouldNotLoadFeaturePack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not unload all feature packs..
+        /// </summary>
+        internal static string CouldNotUnloadAllPacks {
+            get {
+                return ResourceManager.GetString("CouldNotUnloadAllPacks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not unload feature pack..
+        /// </summary>
+        internal static string CouldNotUnloadFeaturePack {
+            get {
+                return ResourceManager.GetString("CouldNotUnloadFeaturePack", resourceCulture);
             }
         }
         
