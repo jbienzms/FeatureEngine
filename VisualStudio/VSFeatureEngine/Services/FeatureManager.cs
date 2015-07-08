@@ -219,7 +219,7 @@ namespace VSFeatureEngine
         private Collection<FeaturePack> loadedPackages = new Collection<FeaturePack>();
         private IVsPackageInstallerEvents nugetEvents;
         private IVsPackageInstallerServices nugetService;
-        private Dictionary<IVsPackageMetadata, FeaturePack> packagesByNuPack = new Dictionary<IVsPackageMetadata, FeaturePack>();
+        private Dictionary<NuPackRef, FeaturePack> packagesByNuPack = new Dictionary<NuPackRef, FeaturePack>();
         private Dictionary<Project, Collection<FeaturePack>> packagesByProject = new Dictionary<Project, Collection<FeaturePack>>();
         private IServiceStore serviceStore;
         #endregion // Member Variables
@@ -387,19 +387,6 @@ namespace VSFeatureEngine
             }
         }
 
-        private void Shutdown()
-        {
-            // Remove all lookup tables
-            packagesByProject.Clear();
-            packagesByNuPack.Clear();
-
-            // Unload all packages
-            for (int i = loadedPackages.Count - 1; i >= 0; i--)
-            {
-                UnloadPackage(loadedPackages[i]);
-            }
-        }
-
         /// <summary>
         /// Loads a feature pack from a nuget pacakge.
         /// </summary>
@@ -417,10 +404,13 @@ namespace VSFeatureEngine
             // Must be set at least once
             fePack = null;
 
+            // Get a NuPackRef from the NuPack
+            var nuRef = NuPackRef.From(nuPack);
+
             // See if it's already loaded by nuPack lookup
-            if (packagesByNuPack.ContainsKey(nuPack))
+            if (packagesByNuPack.ContainsKey(nuRef))
             {
-                fePack = packagesByNuPack[nuPack];
+                fePack = packagesByNuPack[nuRef];
                 return true;
             }
 
@@ -437,7 +427,7 @@ namespace VSFeatureEngine
                 fePack = LoadPackage(featurePackPath);
 
                 // Cache in lookup
-                packagesByNuPack[nuPack] = fePack;
+                packagesByNuPack[nuRef] = fePack;
 
                 // Success
                 return true;
@@ -458,6 +448,19 @@ namespace VSFeatureEngine
         {
             FeaturePack p = null;
             TryLoadPackage(nuPack, out p);
+        }
+
+        private void UnloadAll()
+        {
+            // Remove all lookup tables
+            packagesByProject.Clear();
+            packagesByNuPack.Clear();
+
+            // Unload all packages
+            for (int i = loadedPackages.Count - 1; i >= 0; i--)
+            {
+                UnloadPackage(loadedPackages[i]);
+            }
         }
 
         private void UnloadPackage(FeaturePack pack)
@@ -518,27 +521,30 @@ namespace VSFeatureEngine
 
         private void NuGet_PackageReferenceAdded(IVsPackageMetadata metadata)
         {
-            // TODO: Associate
+            // TODO: Update Project Associations
         }
 
         private void NuGet_PackageReferenceRemoved(IVsPackageMetadata metadata)
         {
-            // TODO: Disassociate
+            // TODO: Update Project Associations
         }
 
-        private void NuGet_PackageUninstalling(IVsPackageMetadata metadata)
+        private void NuGet_PackageUninstalled(IVsPackageMetadata metadata)
         {
             // Run with error handling
             TaskHelper.RunWithErrorHandling(() =>
             {
+                // Get a NuPackRef from the NuPack
+                var nuRef = NuPackRef.From(metadata);
+
                 // Is this NuGet package a loaded feature pack?
-                if (packagesByNuPack.ContainsKey(metadata))
+                if (packagesByNuPack.ContainsKey(nuRef))
                 {
                     // Yup, get the associated feature pack
-                    var pack = packagesByNuPack[metadata];
+                    var pack = packagesByNuPack[nuRef];
 
                     // Disassociate
-                    packagesByNuPack.Remove(metadata);
+                    packagesByNuPack.Remove(nuRef);
 
                     // Unload it
                     UnloadPackage(pack);
@@ -567,7 +573,7 @@ namespace VSFeatureEngine
             // Run with error handling
             TaskHelper.RunWithErrorHandling(() =>
             {
-                Shutdown();
+                UnloadAll();
             }, TaskRunOptions.WithFailure(Strings.CouldNotUnloadAllPacks));
         }
         #endregion // Overrides / Event Handlers
@@ -662,7 +668,7 @@ namespace VSFeatureEngine
             nugetEvents.PackageInstalled += NuGet_PackageInstalled;
             nugetEvents.PackageReferenceAdded += NuGet_PackageReferenceAdded;
             nugetEvents.PackageReferenceRemoved += NuGet_PackageReferenceRemoved;
-            nugetEvents.PackageUninstalling += NuGet_PackageUninstalling;
+            nugetEvents.PackageUninstalled += NuGet_PackageUninstalled;
         }
         #endregion // Public Methods
 

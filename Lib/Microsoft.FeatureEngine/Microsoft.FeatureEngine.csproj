@@ -98,11 +98,13 @@
     <Compile Include="Entities\ProjectInfo.cs" />
     <Compile Include="Exceptions\MissingServiceException.cs" />
     <Compile Include="Exceptions\ActivityFailureException.cs" />
-    <Compile Include="Extensibility\DynamicListMenu.cs" />
+    <Compile Include="Extensibility\SolutionTracker.cs" />
     <Compile Include="Extensibility\DynamicMenu.cs" />
     <Compile Include="Extensibility\DynamicMenuBase.cs" />
     <Compile Include="Extensibility\DynamicMenuCommand.cs" />
     <Compile Include="Extensibility\DynamicMenuItem.cs" />
+    <Compile Include="Extensibility\DynamicMenuItemEventArgs.cs" />
+    <Compile Include="Extensibility\ProjectDynamicMenu.cs" />
     <Compile Include="Extensions\TaskHelper.cs" />
     <Compile Include="FeaturePacks\IFeature.cs" />
     <Compile Include="FeaturePacks\IFeaturePack.cs" />

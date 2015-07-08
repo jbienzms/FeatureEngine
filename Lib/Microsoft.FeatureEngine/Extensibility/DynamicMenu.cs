@@ -9,37 +9,64 @@ using Microsoft.VisualStudio.Shell;
 namespace Microsoft.FeatureEngine
 {
     /// <summary>
-    /// Provides data for events related to <see cref="DynamicMenuItem"/> objects.
+    /// A base class for a dynamic menu based on a list of custom items.
     /// </summary>
-    public class DynamicMenuItemEventArgs : EventArgs
+    /// <typeparam name="T">
+    /// The type of item in the list.
+    /// </typeparam>
+    public abstract class DynamicMenu<T> : DynamicMenuBase<T>
     {
         #region Constructors
         /// <summary>
-        /// Initializes a new <see cref="DynamicMenuItemEventArgs"/> instance.
+        /// Initializes a new <see cref="DynamicMenu"/> instance.
         /// </summary>
-        /// <param name="item">
-        /// The item for the event.
+        /// <param name="package">
+        /// The package containing the menu and related resources.
         /// </param>
-        public DynamicMenuItemEventArgs(DynamicMenuItem item)
-        {
-            // Validate
-            if (item == null) throw new ArgumentNullException("item");
-
-            // Store
-            Item = item;
-        }
+        /// <param name="menuGroup">
+        /// The group where the menu will be displayed.
+        /// </param>
+        /// <param name="startId">
+        /// The ID of the placeholder start item.
+        /// </param>
+        /// <remarks>
+        /// For more information on how menuGroup and startId are defined see 
+        /// <see href="https://msdn.microsoft.com/en-us/library/bb166492.aspx">Walkthrough: Dynamically Adding Menu Items</see>.
+        /// </remarks>
+        public DynamicMenu(Package package, Guid menuGroup, int startId) : base(package, menuGroup, startId) { }
         #endregion // Constructors
 
+        #region Overrides / Event Handlers
+        protected override T GetItem(int idx)
+        {
+            return InnerItems[idx];
+        }
 
-        #region Public Properties
+        protected override bool IsInRange(int idx)
+        {
+            QueryRefreshItems();
+            return ((idx > -1) && (idx < InnerItems.Count));
+        }
+        #endregion // Overrides / Event Handlers
+
+        #region Overrides / Event Handlers
         /// <summary>
-        /// Gets the item for the event.
+        /// Provides inherited class the opportunity to refresh the items before 
+        /// the menu is displayed.
         /// </summary>
-        public DynamicMenuItem Item { get; private set; }
-        #endregion // Public Properties
+        protected virtual void QueryRefreshItems() { }
+
+        /// <summary>
+        /// Gets the internal list of items that should be represented in the menu.
+        /// </summary>
+        protected abstract IList<T> InnerItems { get; }
+        #endregion // Overrides / Event Handlers
     }
 
-    public class DynamicMenu : DynamicListMenu<DynamicMenuItem>
+    /// <summary>
+    /// A fully implemented <see cref="DynamicMenu{T}"/> where the items are <see cref="DynamicMenuItem"/>.
+    /// </summary>
+    public class DynamicMenu : DynamicMenu<DynamicMenuItem>
     {
         #region Member Variables
         private Collection<DynamicMenuItem> items = new Collection<DynamicMenuItem>();

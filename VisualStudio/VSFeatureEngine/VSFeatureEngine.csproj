@@ -70,6 +70,7 @@
     <Compile Include="Commands\MenuGuids.cs" />
     <Compile Include="Commands\ManageFeaturesCommand.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Extensibility\NuPackRef.cs" />
     <Compile Include="FeaturePacks\Feature.cs" />
     <Compile Include="FeaturePacks\FeatureExtension.cs" />
     <Compile Include="FeaturePacks\ProjectTemplate.cs" />
@@ -198,7 +199,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Extensibility\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

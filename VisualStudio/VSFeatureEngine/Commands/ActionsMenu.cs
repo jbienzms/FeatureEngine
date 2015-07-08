@@ -13,7 +13,7 @@ using VSFeatureEngine.FeaturePacks;
 
 namespace VSFeatureEngine
 {
-    public class ActionsMenu : DynamicListMenu<IFeatureAction>
+    public class ActionsMenu : ProjectDynamicMenu<IFeatureAction>
     {
         #region Static Version
         #region Constants
@@ -52,15 +52,12 @@ namespace VSFeatureEngine
         private Collection<IFeatureAction> actions = new Collection<IFeatureAction>();
         private ExecutionContext context;
         private IFeatureManager featureManager;
-        private WeakReference<Project> lastActiveProject;
-        private IVSAssetResolver vsResolver;
         #endregion // Member Variables
 
         public ActionsMenu(Package package) : base(package, MenuGuids.FeatureEngineCommandSet, StartCommandId)
         {
             // Get services
             featureManager = ServiceStore.GetService<IFeatureManager>();
-            vsResolver = ServiceStore.GetService<IVSAssetResolver>();
 
             // Create the execution context
             context = new ExecutionContext(ServiceStore);
@@ -89,51 +86,32 @@ namespace VSFeatureEngine
             }, TaskRunOptions.WithFailure(Strings.CouldNotCompleteAction));
         }
 
-        protected override void QueryRefreshItems()
+        protected override void QueryProjectItems(Project activeProject)
         {
-            // Get the currently active project
-            var activeProject = vsResolver.GetActiveProject();
-
-            // If there is no new project, clear and bail
-            if (activeProject == null)
-            {
-                lastActiveProject = null;
-                actions.Clear();
-                return;
-            }
-
-            // If new and current are same, nothing to refresh
-            Project last = null;
-            if ((lastActiveProject != null) && (lastActiveProject.TryGetTarget(out last)))
-            {
-                if (activeProject == last) { return; }
-            }
-            
-            // Update last
-            lastActiveProject = new WeakReference<Project>(activeProject);
-
-            // Clear current actions
+            // Clear an existing actions
             actions.Clear();
 
-            // Get feature packs for project
-            var packs = featureManager.GetPackages(activeProject);
-
-            // Show all actions for all feature packages
-            foreach (var pack in packs)
+            // If there is an active project, build items
+            if (activeProject != null)
             {
-                foreach (var feature in pack.Features)
+                // Get feature packs for project
+                var packs = featureManager.GetPackages(activeProject);
+
+                // Show all actions for all feature packages
+                foreach (var pack in packs)
                 {
-                    foreach (var action in feature.Actions)
+                    foreach (var feature in pack.Features)
                     {
-                        if (!actions.Contains(action))
+                        foreach (var action in feature.Actions)
                         {
-                            actions.Add(action);
+                            if (!actions.Contains(action))
+                            {
+                                actions.Add(action);
+                            }
                         }
                     }
                 }
             }
-
-            base.QueryRefreshItems();
         }
         #endregion // Overrides / Event Handlers
         #endregion // Instance Version
