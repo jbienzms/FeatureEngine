@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.Shell;
 
-namespace VSFeatureEngine
+namespace Microsoft.FeatureEngine
 {
     public class DynamicMenuCommand : OleMenuCommand
     {

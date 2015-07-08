@@ -6,13 +6,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EnvDTE;
 using Microsoft.FeatureEngine;
 using Microsoft.VisualStudio.Shell;
 using VSFeatureEngine.FeaturePacks;
 
 namespace VSFeatureEngine
 {
-    public class ActionsMenu : ListDynamicMenu<IFeatureAction>
+    public class ActionsMenu : DynamicListMenu<IFeatureAction>
     {
         #region Static Version
         #region Constants
@@ -48,22 +49,35 @@ namespace VSFeatureEngine
 
         #region Instance Version
         #region Member Variables
-        private Collection<IFeatureAction> actions;
+        private Collection<IFeatureAction> actions = new Collection<IFeatureAction>();
         private ExecutionContext context;
+        private IFeatureManager featureManager;
+        private WeakReference<Project> lastActiveProject;
+        private IVSAssetResolver vsResolver;
         #endregion // Member Variables
 
         public ActionsMenu(Package package) : base(package, MenuGuids.FeatureEngineCommandSet, StartCommandId)
         {
-            actions = new Collection<IFeatureAction>();
-            
+            // Get services
+            featureManager = ServiceStore.GetService<IFeatureManager>();
+            vsResolver = ServiceStore.GetService<IVSAssetResolver>();
+
             // Create the execution context
             context = new ExecutionContext(ServiceStore);
         }
 
         #region Overrides / Event Handlers
-        protected override string GetItemTitle(IFeatureAction item)
+        protected override string GetText(IFeatureAction item)
         {
             return item.Title;
+        }
+
+        protected override IList<IFeatureAction> InnerItems
+        {
+            get
+            {
+                return actions;
+            }
         }
 
         protected override void OnItemInvoked(IFeatureAction item)
@@ -75,16 +89,53 @@ namespace VSFeatureEngine
             }, TaskRunOptions.WithFailure(Strings.CouldNotCompleteAction));
         }
 
-        protected override IList<IFeatureAction> Items
+        protected override void QueryRefreshItems()
         {
-            get
+            // Get the currently active project
+            var activeProject = vsResolver.GetActiveProject();
+
+            // If there is no new project, clear and bail
+            if (activeProject == null)
             {
-                return actions;
+                lastActiveProject = null;
+                actions.Clear();
+                return;
             }
+
+            // If new and current are same, nothing to refresh
+            Project last = null;
+            if ((lastActiveProject != null) && (lastActiveProject.TryGetTarget(out last)))
+            {
+                if (activeProject == last) { return; }
+            }
+            
+            // Update last
+            lastActiveProject = new WeakReference<Project>(activeProject);
+
+            // Clear current actions
+            actions.Clear();
+
+            // Get feature packs for project
+            var packs = featureManager.GetPackages(activeProject);
+
+            // Show all actions for all feature packages
+            foreach (var pack in packs)
+            {
+                foreach (var feature in pack.Features)
+                {
+                    foreach (var action in feature.Actions)
+                    {
+                        if (!actions.Contains(action))
+                        {
+                            actions.Add(action);
+                        }
+                    }
+                }
+            }
+
+            base.QueryRefreshItems();
         }
         #endregion // Overrides / Event Handlers
-
-        public Collection<IFeatureAction> Actions { get { return actions; } }
         #endregion // Instance Version
     }
 }

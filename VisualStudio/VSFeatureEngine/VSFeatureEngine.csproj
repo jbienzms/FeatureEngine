@@ -66,9 +66,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Extensibility\ListDynamicMenu.cs" />
-    <Compile Include="Extensibility\DynamicMenuCommand.cs" />
-    <Compile Include="Extensibility\DynamicMenu.cs" />
     <Compile Include="Commands\ActionsMenu.cs" />
     <Compile Include="Commands\MenuGuids.cs" />
     <Compile Include="Commands\ManageFeaturesCommand.cs" />
@@ -201,6 +198,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Extensibility\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

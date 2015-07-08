@@ -63,6 +63,7 @@ namespace VSFeatureEngine
 
         private void UpdateActions(IEnumerable<IFeaturePack> packs)
         {
+            /*
             // Get the actions menu item
             var actions = ActionsMenu.Instance.Actions;
 
@@ -83,6 +84,7 @@ namespace VSFeatureEngine
                     }
                 }
             }
+            */
         }
         #endregion // Internal Methods
 
