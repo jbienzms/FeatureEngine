@@ -388,6 +388,55 @@ namespace VSFeatureEngine
         }
 
         /// <summary>
+        /// Rebuilds the associations between projects and feature packs.
+        /// </summary>
+        private void RebuildAssociations(IVsPackageMetadata added, IVsPackageMetadata removed)
+        {
+            // Solution open?
+            if (dte.Solution == null) { return; }
+
+            // Convert to refs
+            var addedRef = NuPackRef.From(added);
+            var removedRef = NuPackRef.From(removed);
+
+            // Convert to feature packs
+            FeaturePack addedPack = null;
+            FeaturePack removedPack = null;
+            if ((addedRef != null) && (packagesByNuPack.ContainsKey(addedRef)))
+            {
+                addedPack = packagesByNuPack[addedRef];
+            }
+            if ((removedRef != null) && (packagesByNuPack.ContainsKey(removedRef)))
+            {
+                removedPack = packagesByNuPack[removedRef];
+            }
+
+            // Enum all open projects
+            foreach (var project in dte.Solution.Projects.Cast<Project>())
+            {
+                // Get packs for the project
+                var packs = GetPackages(project);
+
+                // Handle remove first
+                if ((removedPack != null) && (packs.Contains(removedPack)))
+                {
+                    Dissociate(removedPack, project);
+                }
+
+                // Handle add next
+                if (addedPack != null)
+                {
+                    // See if project contains package
+                    if (nugetService.IsPackageInstalledEx(project, added.Id, added.VersionString))
+                    {
+                        // Yup, associate
+                        Associate(addedPack, project);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Loads a feature pack from a nuget pacakge.
         /// </summary>
         /// <param name="nuPack">
@@ -490,6 +539,7 @@ namespace VSFeatureEngine
         #endregion // Internal Methods
 
         #region Overridables / Event Triggers
+        
         protected virtual void OnPackageLoaded(FeaturePack pack)
         {
             if (PackageLoaded != null)
@@ -521,12 +571,22 @@ namespace VSFeatureEngine
 
         private void NuGet_PackageReferenceAdded(IVsPackageMetadata metadata)
         {
-            // TODO: Update Project Associations
+            // Run with error handling
+            TaskHelper.RunWithErrorHandling(() =>
+            {
+                // Update Project Associations
+                RebuildAssociations(metadata, null);
+            });
         }
 
         private void NuGet_PackageReferenceRemoved(IVsPackageMetadata metadata)
         {
-            // TODO: Update Project Associations
+            // Run with error handling
+            TaskHelper.RunWithErrorHandling(() =>
+            {
+                // Update Project Associations
+                RebuildAssociations(null, metadata);
+            });
         }
 
         private void NuGet_PackageUninstalled(IVsPackageMetadata metadata)
