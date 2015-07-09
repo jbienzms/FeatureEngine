@@ -95,9 +95,11 @@
     <Compile Include="Activities\GetActiveProject.cs" />
     <Compile Include="Activities\GetProjectInfo.cs" />
     <Compile Include="Activities\WhatIfActivity.cs" />
+    <Compile Include="Entities\FeaturePackAssociation.cs" />
     <Compile Include="Entities\ProjectInfo.cs" />
     <Compile Include="Exceptions\MissingServiceException.cs" />
     <Compile Include="Exceptions\ActivityFailureException.cs" />
+    <Compile Include="Extensibility\FeaturesDynamicMenu.cs" />
     <Compile Include="Extensibility\SolutionTracker.cs" />
     <Compile Include="Extensibility\DynamicMenu.cs" />
     <Compile Include="Extensibility\DynamicMenuBase.cs" />
@@ -113,8 +115,8 @@
     <Compile Include="FeaturePacks\IItemTemplate.cs" />
     <Compile Include="FeaturePacks\IMetadata.cs" />
     <Compile Include="FeaturePacks\IProjectTemplate.cs" />
-    <Compile Include="Services\FeaturePackAssociationEventArgs.cs" />
-    <Compile Include="Services\FeaturePackEventArgs.cs" />
+    <Compile Include="Entities\FeaturePackAssociationEventArgs.cs" />
+    <Compile Include="Entities\FeaturePackEventArgs.cs" />
     <Compile Include="Services\IFeatureAssetResolver.cs" />
     <Compile Include="Services\IFeatureManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

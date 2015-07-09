@@ -129,6 +129,9 @@
   <data name="CouldNotLoadFeaturePack" xml:space="preserve">
     <value>Could not load feature pack</value>
   </data>
+  <data name="CouldNotObtainProjectGUID" xml:space="preserve">
+    <value>Could not obtain a project GUID.</value>
+  </data>
   <data name="CouldNotUnloadAllPacks" xml:space="preserve">
     <value>Could not unload all feature packs.</value>
   </data>

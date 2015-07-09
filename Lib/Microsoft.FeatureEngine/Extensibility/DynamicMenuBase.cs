@@ -78,14 +78,14 @@ namespace Microsoft.FeatureEngine
             // If not our own custom command, bail
             if (matchedCommand == null) { return; }
 
-            // Find out if it's the root item
-            bool isRootItem = (matchedCommand.MatchedCommandId == 0);
+            // Get ID
+            var commandId = matchedCommand.MatchedCommandId;
 
-            // If it's the root item, ignore it
-            if (isRootItem) { return; }
+            // Find out if it's the root item
+            bool isRoot = (commandId == 0);
 
             // Get the item index
-            int idx = ((matchedCommand.MatchedCommandId - startId) - 1);
+            int idx = (isRoot ? 0 : (commandId - startId));
 
             // If in range, update
             if (IsInRange(idx))
@@ -99,6 +99,12 @@ namespace Microsoft.FeatureEngine
 
                 // Update title
                 matchedCommand.Text = GetText(item);
+            }
+            else
+            {
+                // Not in range, hide
+                matchedCommand.Enabled = false;
+                matchedCommand.Visible = false;
             }
         }
 
@@ -119,7 +125,7 @@ namespace Microsoft.FeatureEngine
         /// </remarks>
         private bool IsValidItem(int commandId)
         {
-            int idx = ((commandId - startId) - 1);
+            int idx = (commandId - startId);
             return IsInRange(idx);
         }
 
@@ -143,11 +149,14 @@ namespace Microsoft.FeatureEngine
             // If we didn't get our special command, ignore
             if (invokedCommand == null) { return; }
 
-            // Get the command ID
+            // What is the command
             var commandId = invokedCommand.MatchedCommandId;
 
+            // Is it the root?
+            var isRoot = commandId == 0;
+
             // Convert command ID to index
-            int idx = ((commandId - startId) - 1);
+            int idx = (isRoot ? 0 : (commandId - startId));
 
             // Check to see if we have a valid index
             if (IsInRange(idx))

@@ -97,6 +97,15 @@ namespace VSFeatureEngine {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not obtain a project GUID..
+        /// </summary>
+        internal static string CouldNotObtainProjectGUID {
+            get {
+                return ResourceManager.GetString("CouldNotObtainProjectGUID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not unload all feature packs..
         /// </summary>
         internal static string CouldNotUnloadAllPacks {

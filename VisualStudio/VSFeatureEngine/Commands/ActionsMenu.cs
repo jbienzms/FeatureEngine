@@ -13,7 +13,7 @@ using VSFeatureEngine.FeaturePacks;
 
 namespace VSFeatureEngine
 {
-    public class ActionsMenu : ProjectDynamicMenu<IFeatureAction>
+    public class ActionsMenu : FeaturesDynamicMenu<IFeatureAction>
     {
         #region Static Version
         #region Constants
@@ -51,17 +51,15 @@ namespace VSFeatureEngine
         #region Member Variables
         private Collection<IFeatureAction> actions = new Collection<IFeatureAction>();
         private ExecutionContext context;
-        private IFeatureManager featureManager;
         #endregion // Member Variables
 
+        #region Constructors
         public ActionsMenu(Package package) : base(package, MenuGuids.FeatureEngineCommandSet, StartCommandId)
         {
-            // Get services
-            featureManager = ServiceStore.GetService<IFeatureManager>();
-
             // Create the execution context
             context = new ExecutionContext(ServiceStore);
         }
+        #endregion // Constructors
 
         #region Overrides / Event Handlers
         protected override string GetText(IFeatureAction item)
@@ -86,16 +84,16 @@ namespace VSFeatureEngine
             }, TaskRunOptions.WithFailure(Strings.CouldNotCompleteAction));
         }
 
-        protected override void QueryProjectItems(Project activeProject)
+        protected override void QueryFeatureItems()
         {
             // Clear an existing actions
             actions.Clear();
 
             // If there is an active project, build items
-            if (activeProject != null)
+            if (ActiveProject != null)
             {
                 // Get feature packs for project
-                var packs = featureManager.GetPackages(activeProject);
+                var packs = FeatureManager.GetPackages(ActiveProject);
 
                 // Show all actions for all feature packages
                 foreach (var pack in packs)

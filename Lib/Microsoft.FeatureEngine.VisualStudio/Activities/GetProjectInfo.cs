@@ -14,7 +14,7 @@ using Microsoft.FeatureEngine.Activities;
 using System.Activities;
 using EnvDTE;
 
-namespace Microsoft.FeatureEngine.VisualStudio.Activities
+namespace Microsoft.FeatureEngine.Activities
 {
     public class GetProjectInfo : FeatureActivity
     {

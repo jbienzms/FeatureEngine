@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using EnvDTE;
 using Microsoft.FeatureEngine.Activities;
 
-namespace Microsoft.FeatureEngine.VisualStudio.Activities
+namespace Microsoft.FeatureEngine.Activities
 {
     /// <summary>
     /// Gets the currently active project in the Visual Studio environment.

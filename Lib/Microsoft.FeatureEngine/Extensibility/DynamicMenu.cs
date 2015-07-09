@@ -44,7 +44,13 @@ namespace Microsoft.FeatureEngine
 
         protected override bool IsInRange(int idx)
         {
+            // Query for refresh
             QueryRefreshItems();
+
+            // If invalidated, not anymore
+            IsInvalidated = false;
+
+            // Calculate
             return ((idx > -1) && (idx < InnerItems.Count));
         }
         #endregion // Overrides / Event Handlers
@@ -61,6 +67,28 @@ namespace Microsoft.FeatureEngine
         /// </summary>
         protected abstract IList<T> InnerItems { get; }
         #endregion // Overrides / Event Handlers
+
+        #region Public Methods
+        /// <summary>
+        /// Indicates that the underlying items collection is invalid and should be recalculated.
+        /// </summary>
+        public void Invalidate()
+        {
+            IsInvalidated = true;
+        }
+        #endregion // Public Methods
+
+        #region Internal Properties
+        /// <summary>
+        /// Gets a value that indicates if the underlying items collection 
+        /// has been invalidated and should be recalculated.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if if the underlying items collection has been invalidated 
+        /// and should be recalculated; otherwise false.
+        /// </value>
+        protected bool IsInvalidated { get; private set; }
+        #endregion // Internal Properties
     }
 
     /// <summary>

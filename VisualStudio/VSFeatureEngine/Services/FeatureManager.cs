@@ -220,8 +220,9 @@ namespace VSFeatureEngine
         private IVsPackageInstallerEvents nugetEvents;
         private IVsPackageInstallerServices nugetService;
         private Dictionary<NuPackRef, FeaturePack> packagesByNuPack = new Dictionary<NuPackRef, FeaturePack>();
-        private Dictionary<Project, Collection<FeaturePack>> packagesByProject = new Dictionary<Project, Collection<FeaturePack>>();
+        private Dictionary<Guid, Collection<FeaturePack>> packagesByProject = new Dictionary<Guid, Collection<FeaturePack>>();
         private IServiceStore serviceStore;
+        private VSUtil vsUtil;
         #endregion // Member Variables
 
         #region Constructors
@@ -253,10 +254,7 @@ namespace VSFeatureEngine
             }
 
             // Notify
-            if (PackageAssociated != null)
-            {
-                PackageAssociated(this, new FeaturePackAssociationEventArgs(fePack, project));
-            }
+            OnPackageAssociated(new FeaturePackAssociation(fePack, project));
         }
 
         private void Dissociate(FeaturePack fePack, Project project)
@@ -272,10 +270,7 @@ namespace VSFeatureEngine
             lookup.Remove(fePack);
 
             // Notify
-            if (PackageDisassociated != null)
-            {
-                PackageDisassociated(this, new FeaturePackAssociationEventArgs(fePack, project));
-            }
+            OnPackageDisassociated(new FeaturePackAssociation(fePack, project));
         }
 
         private Collection<FeaturePack> FindOrCreateLookup(Project project)
@@ -283,15 +278,18 @@ namespace VSFeatureEngine
             // Validate
             if (project == null) throw new ArgumentNullException("project");
 
+            // Get the project GUID
+            var id = vsUtil.GetProjectGuid(project);
+
             // Find or create lookup
-            if (packagesByProject.ContainsKey(project))
+            if (packagesByProject.ContainsKey(id))
             {
-                return packagesByProject[project];
+                return packagesByProject[id];
             }
             else
             {
                 var col = new Collection<FeaturePack>();
-                packagesByProject[project] = col;
+                packagesByProject[id] = col;
                 return col;
             }
         }
@@ -539,7 +537,22 @@ namespace VSFeatureEngine
         #endregion // Internal Methods
 
         #region Overridables / Event Triggers
-        
+        protected virtual void OnPackageAssociated(FeaturePackAssociation association)
+        {
+            if (PackageAssociated != null)
+            {
+                PackageAssociated(this, new FeaturePackAssociationEventArgs(association));
+            }
+        }
+
+        protected virtual void OnPackageDisassociated(FeaturePackAssociation association)
+        {
+            if (PackageDisassociated != null)
+            {
+                PackageDisassociated(this, new FeaturePackAssociationEventArgs(association));
+            }
+        }
+
         protected virtual void OnPackageLoaded(FeaturePack pack)
         {
             if (PackageLoaded != null)
@@ -614,8 +627,16 @@ namespace VSFeatureEngine
 
         private void VS_ProjectRemoved(Project project)
         {
-            // Remove lookup
-            packagesByProject.Remove(project);
+            // Run with error handling
+            TaskHelper.RunWithErrorHandling(() =>
+            {
+                // Get the Unique ID
+                var id = vsUtil.GetProjectGuid(project);
+
+                // Remove lookup
+                packagesByProject.Remove(id);
+            });
+
         }
 
         private void VS_ProjectAdded(Project project)
@@ -713,6 +734,9 @@ namespace VSFeatureEngine
 
         public void Initialize()
         {
+            // Create helpers
+            vsUtil = new VSUtil(serviceStore);
+
             // Obtain additional services
             dte = serviceStore.GetService<DTE>();
             nugetEvents = serviceStore.GetService<IVsPackageInstallerEvents>();

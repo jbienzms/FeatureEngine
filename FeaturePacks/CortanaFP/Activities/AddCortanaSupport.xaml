@@ -36,7 +36,6 @@
       <AssemblyReference>System.Data</AssemblyReference>
       <AssemblyReference>System.Net.Http</AssemblyReference>
       <AssemblyReference>System.Xml</AssemblyReference>
-      <AssemblyReference>Microsoft.FeatureEngine.VisualStudio</AssemblyReference>
       <AssemblyReference>Microsoft.FeatureEngine</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
       <AssemblyReference>EnvDTE</AssemblyReference>

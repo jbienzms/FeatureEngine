@@ -17,6 +17,7 @@ namespace Microsoft.FeatureEngine
         private IVSAssetResolver resolver;
         #endregion // Member Variables
 
+        #region Constructors
         /// <summary>
         /// Initializes a new <see cref="SolutionTracker"/> instance.
         /// </summary>
@@ -31,27 +32,22 @@ namespace Microsoft.FeatureEngine
             // Store
             this.resolver = resolver;
         }
+        #endregion // Constructors
 
+        #region Public Methods
         /// <summary>
         /// Checks to see if the active project has changed since the last time it was queried.
         /// </summary>
-        /// <param name="active">
-        /// The currently active project.
-        /// </param>
         /// <returns>
         /// <c>true</c> if the active project has changed since the last time it was queried; otherwise false.
         /// </returns>
-        public bool QueryProjectChanged(out Project active)
+        public bool HasProjectChanged()
         {
             // Get the currently active project
-            active = resolver.GetActiveProject();
+            Project active = resolver.GetActiveProject();
 
-            // Try to get the last active project
-            Project lastActive = null;
-            if (lastProjectWeak != null)
-            {
-                lastProjectWeak.TryGetTarget(out lastActive);
-            }
+            // Try to get the last project we accessed
+            var lastActive = LastProject;
 
             // Changed?
             if (active != lastActive)
@@ -68,5 +64,25 @@ namespace Microsoft.FeatureEngine
                 return false;
             }
         }
+        #endregion // Public Methods
+
+
+        #region Public Properties
+        /// <summary>
+        /// Gets the <see cref="Project"/> that was last accessed.
+        /// </summary>
+        public Project LastProject
+        {
+            get
+            {
+                Project lastActive = null;
+                if (lastProjectWeak != null)
+                {
+                    lastProjectWeak.TryGetTarget(out lastActive);
+                }
+                return lastActive;
+            }
+        }
+        #endregion // Public Properties
     }
 }

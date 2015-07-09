@@ -71,6 +71,7 @@
     <Compile Include="Commands\ManageFeaturesCommand.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Extensibility\NuPackRef.cs" />
+    <Compile Include="Extensibility\VSUtil.cs" />
     <Compile Include="FeaturePacks\Feature.cs" />
     <Compile Include="FeaturePacks\FeatureExtension.cs" />
     <Compile Include="FeaturePacks\ProjectTemplate.cs" />
