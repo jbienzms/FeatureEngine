@@ -142,6 +142,8 @@ publish/
 !**/packages/build/
 # Uncomment if necessary however generally it will be regenerated when needed
 #!**/packages/repositories.config
+# VSIX Packages OK
+!**/VisualStudio/VSFeatureEngine/Packages/*
 
 # Windows Azure Build Output
 csx/
