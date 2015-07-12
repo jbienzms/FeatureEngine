@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Activities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +25,13 @@ namespace Microsoft.FeatureEngine.Workflow
         /// The result of the execution.
         /// </param>
         void ProcessExecutionResult(WhatIfExecutionResult result);
+
+        /// <summary>
+        /// Sets the activity as the root activity for the current "What If" scenario.
+        /// </summary>
+        /// <param name="activity">
+        /// The activity to set as the root.
+        /// </param>
+        void SetRootActivity(Activity activity);
     }
 }

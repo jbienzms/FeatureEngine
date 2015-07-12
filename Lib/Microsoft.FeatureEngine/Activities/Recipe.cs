@@ -1,49 +1,32 @@
 ﻿using System;
 using System.Activities;
-using System.Collections.Generic;
+using System.Activities.Statements;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Markup;
+using Microsoft.FeatureEngine.ActivityDesigners;
+using Microsoft.FeatureEngine.Workflow;
 
 namespace Microsoft.FeatureEngine.Activities
 {
-    /// <summary>
-    /// The base class for an activity that is part of a feature pack.
-    /// </summary>
-    public abstract class FeatureActivity : CodeActivity, IFeatureActivity
+    [ContentProperty("Activities")]
+    [Designer(typeof(RecipeDesigner))]
+    public class Recipe : NativeActivity, IFeatureActivity
     {
-        #region Static Version
-        #region Internal Methods
-        /// <summary>
-        /// Gets the service of the specified type.
-        /// </summary>
-        /// <typeparam name="T">
-        /// The type of service to obtain.
-        /// </typeparam>
-        /// <param name="context">
-        /// The context of the activity.
-        /// </param>
-        /// <returns>
-        /// The service instance.
-        /// </returns>
-        static protected T GetService<T>(CodeActivityContext context) where T:class
-        {
-            if (context == null) throw new ArgumentNullException("context");
-            return context.GetExtension<IServiceStore>().GetService<T>();
-        }
-        #endregion // Internal Methods
-        #endregion // Static Version
-
-        #region Instance Version
+        
         #region Member Variables
+        private Sequence innerSequence = new Sequence();
         #endregion // Member Variables
 
         #region Constructors
         /// <summary>
-        /// Initializes a new <see cref="FeatureActivity"/> instance.
+        /// Initializes a new <see cref="Recipe"/> instance.
         /// </summary>
-        public FeatureActivity()
+        public Recipe()
         {
             // Defaults
             Description = string.Empty;
@@ -53,14 +36,41 @@ namespace Microsoft.FeatureEngine.Activities
         #endregion // Constructors
 
         #region Overrides / Event Handlers
-        protected override void CacheMetadata(CodeActivityMetadata metadata)
+        protected override void CacheMetadata(NativeActivityMetadata metadata)
         {
-            base.CacheMetadata(metadata);
-            metadata.RequireExtension<IServiceStore>();
+            metadata.AddImplementationChild(innerSequence);
+        }
+
+        protected override void Execute(NativeActivityContext context)
+        {
+            // Try to get the "What If" extension from the context
+            var whatIf = context.GetExtension<IWhatIfExtension>();
+
+            // If found, notify that we're the root
+            if (whatIf != null)
+            {
+                whatIf.SetRootActivity(this);
+            }
+
+            // Now, if we're enabled, carry out child tasks
+            if (IsEnabled)
+            {
+                context.ScheduleActivity(innerSequence);
+            }
         }
         #endregion // Overrides / Event Handlers
 
         #region Public Properties
+        [Browsable(false)]
+        [DependsOn("Variables")]
+        public Collection<Activity> Activities
+        {
+            get
+            {
+                return innerSequence.Activities;
+            }
+        }
+
         /// <summary>
         /// Gets a description for the activity.
         /// </summary>
@@ -74,7 +84,7 @@ namespace Microsoft.FeatureEngine.Activities
         /// Indicates if the activity is enabled. The default is <c>true</c>.
         /// </summary>
         [DefaultValue(true)]
-        [Description("Whether or not the activity will execute.")]
+        [Description("Whether or not the recipe will execute.")]
         public bool IsEnabled { get; set; }
 
         /// <summary>
@@ -82,7 +92,7 @@ namespace Microsoft.FeatureEngine.Activities
         /// </summary>
         [Browsable(true)]
         [DefaultValue(null)]
-        [Description("A link to a resource that provides more information about the activity itself.")]
+        [Description("A link to a resource that provides more information about the recipe.")]
         public Link MoreInfoLink { get; set; }
 
         /// <summary>
@@ -93,7 +103,16 @@ namespace Microsoft.FeatureEngine.Activities
         /// </remarks>
         [DefaultValue("")]
         public string Title { get; set; }
+
+
+        [Browsable(false)]
+        public Collection<Variable> Variables
+        {
+            get
+            {
+                return innerSequence.Variables;
+            }
+        }
         #endregion // Public Properties
-        #endregion // Instance Version
     }
 }

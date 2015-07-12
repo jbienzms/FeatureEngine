@@ -17,8 +17,8 @@
         <Extension id="CortanaFP" src="Extensions\CortanaFP.dll"/>
       </Extensions>
       <Actions>
-        <WorkflowAction id="AddCortanaSupport" extension="CortanaFP" type="CortanaFP.Activities.AddCortanaSupport" visibility="Project"
-                        title="Add Cortana Support"
+        <WorkflowAction id="EnableVoiceLaunch" extension="CortanaFP" type="CortanaFP.Activities.EnableVoiceLaunch" visibility="Project"
+                        title="Enable Cortana Voice Launch"
                         description="Adds files, capabilities and optionally services requried to support Cortana in an application.">
         </WorkflowAction>
         </Actions>

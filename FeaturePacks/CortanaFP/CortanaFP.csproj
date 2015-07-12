@@ -72,7 +72,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <XamlAppDef Include="Activities\AddCortanaSupport.xaml">
+    <XamlAppDef Include="Activities\EnableVoiceLaunch.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

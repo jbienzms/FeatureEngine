@@ -8,9 +8,9 @@ using Microsoft.FeatureEngine.Activities;
 namespace Microsoft.FeatureEngine.Workflow
 {
     /// <summary>
-    /// Represents the state of an activity if it were to execute in a non "What If" scenario.
+    /// Represents the recommended executaiton state in a non "What If" scenario.
     /// </summary>
-    public enum WhatIfExecutionState
+    public enum WhatIfRecommendation
     {
         /// <summary>
         /// It is recommended that the activity be executed.
@@ -23,19 +23,14 @@ namespace Microsoft.FeatureEngine.Workflow
         NotRecommended,
 
         /// <summary>
-        /// The work performed by the activity is already completed so executing the activity has no effect.
+        /// The activity is required and must execute for the workflow to succeed.
         /// </summary>
-        AlreadyCompleted,
+        Required,
 
         /// <summary>
-        /// The activity must execute for the workflow to succeed.
+        /// The activity is disabled and cannot execute in the current context
         /// </summary>
-        MustExecute,
-
-        /// <summary>
-        /// The activity cannot execute in the current context
-        /// </summary>
-        CannotExecute,
+        Disabled,
     }
 
     /// <summary>
@@ -46,28 +41,26 @@ namespace Microsoft.FeatureEngine.Workflow
         #region Static Version
         #region Public Methods
         /// <summary>
-        /// Gets the default description for the specified state.
+        /// Gets the default description for the specified recommendation.
         /// </summary>
-        /// <param name="state">
-        /// The state to get the description for.
+        /// <param name="recommendation">
+        /// The recommendation to get the description for.
         /// </param>
         /// <returns>
         /// The default description
         /// </returns>
-        static public string GetDefaultDescription(WhatIfExecutionState state)
+        static public string GetDefaultDescription(WhatIfRecommendation recommendation)
         {
-            switch (state)
+            switch (recommendation)
             {
-                case WhatIfExecutionState.AlreadyCompleted:
-                    return "Already completed";
-                case WhatIfExecutionState.CannotExecute:
-                    return "Cannot execute";
-                case WhatIfExecutionState.MustExecute:
-                    return "Must execute";
-                case WhatIfExecutionState.NotRecommended:
+                case WhatIfRecommendation.Disabled:
+                    return "Disabled";
+                case WhatIfRecommendation.NotRecommended:
                     return "Not recommended";
-                case WhatIfExecutionState.Recommended:
+                case WhatIfRecommendation.Recommended:
                     return "Recommended";
+                case WhatIfRecommendation.Required:
+                    return "Required";
                 default:
                     return "Unknown";
             }
@@ -83,29 +76,29 @@ namespace Microsoft.FeatureEngine.Workflow
         /// <param name="activity">
         /// The activity that completed execution.
         /// </param>
-        /// <param name="state">
-        /// The state of the execution.
+        /// <param name="recommendation">
+        /// the recommended executaiton state in a non "What If" scenario.
         /// </param>
-        /// <param name="description">
-        /// A description for the execution result or <see langword="null"/> to use the default description.
+        /// <param name="recommendationDescription">
+        /// A description for the recommended execution or <see langword="null"/> to use the default description.
         /// </param>
-        public WhatIfExecutionResult(WhatIfActivity activity, WhatIfExecutionState state, string description)
+        public WhatIfExecutionResult(WhatIfActivity activity, WhatIfRecommendation recommendation, string recommendationDescription)
         {
             // Validate
             if (activity == null) throw new ArgumentNullException("activity");
 
             // Store
             this.Activity = activity;
-            this.State = state;
+            this.Recommendation = recommendation;
 
             // What to do about description
-            if (!string.IsNullOrEmpty(description))
+            if (!string.IsNullOrEmpty(recommendationDescription))
             {
-                this.Description = description;
+                this.RecommendationDescription = recommendationDescription;
             }
             else
             {
-                Description = GetDefaultDescription(state);
+                RecommendationDescription = GetDefaultDescription(recommendation);
             }
         }
 
@@ -115,10 +108,10 @@ namespace Microsoft.FeatureEngine.Workflow
         /// <param name="activity">
         /// The activity that completed execution.
         /// </param>
-        /// <param name="state">
-        /// The state of the execution.
+        /// <param name="recommendation">
+        /// the recommended executaiton state in a non "What If" scenario.
         /// </param>
-        public WhatIfExecutionResult(WhatIfActivity activity, WhatIfExecutionState state) : this(activity, state, null) { }
+        public WhatIfExecutionResult(WhatIfActivity activity, WhatIfRecommendation recommendation) : this(activity, recommendation, null) { }
 
         #endregion // Constructors
 
@@ -129,14 +122,14 @@ namespace Microsoft.FeatureEngine.Workflow
         public WhatIfActivity Activity { get; private set; }
 
         /// <summary>
-        /// Gets a description for the state of the execution.
+        /// Gets the recommended executaiton state in a non "What If" scenario.
         /// </summary>
-        public string Description { get; private set; }
+        public WhatIfRecommendation Recommendation { get; private set; }
 
         /// <summary>
-        /// The state of the execution.
+        /// Gets a description for the recommended execution state.
         /// </summary>
-        public WhatIfExecutionState State { get; private set; }
+        public string RecommendationDescription { get; private set; }
         #endregion // Public Properties
         #endregion // Instance Version
     }

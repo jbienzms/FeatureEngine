@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Activities;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -22,8 +23,16 @@ namespace VSFeatureEngine.Workflow
             Results.Add(result);
         }
 
+        public void SetRootActivity(Activity activity)
+        {
+            if (activity == null) throw new ArgumentNullException("activity");
+            RootActivity = activity;
+        }
+
         public bool IsInWhatIfMode { get; set; }
 
         public ObservableCollection<WhatIfExecutionResult> Results { get; private set; } 
+
+        public Activity RootActivity { get; private set; }
     }
 }
