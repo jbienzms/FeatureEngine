@@ -99,6 +99,7 @@
     <Compile Include="Packages\FeatureEnginePackage.cs" />
     <Compile Include="Packages\FeatureEnginePackageGuids.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Workflow\WorkflowTools.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\License\FeatureEngine.licenseheader">

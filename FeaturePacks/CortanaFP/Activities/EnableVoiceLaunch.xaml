@@ -42,11 +42,11 @@
       <AssemblyReference>CortanaFP</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="VoiceLaunch" sap2010:WorkflowViewState.IdRef="Recipe_1">
-    <Sequence.Variables>
+  <mfa:Recipe Description="A Description" DisplayName="VoiceLaunch" sap2010:WorkflowViewState.IdRef="Recipe_1" Title="A Title">
+    <mfa:Recipe.Variables>
       <Variable x:TypeArguments="e:Project" Name="ActiveProject" />
       <Variable x:TypeArguments="mf:ProjectInfo" Name="ActiveProjectInfo" />
-    </Sequence.Variables>
+    </mfa:Recipe.Variables>
     <mfa:GetActiveProject sap2010:WorkflowViewState.IdRef="GetActiveProject_2">
       <mfa:GetActiveProject.MoreInfoLink>
         <mf:Link Title="Foo" Url="http://foo.net" />
@@ -77,8 +77,8 @@
         </InArgument>
       </mfa:GetProjectInfo.Project>
     </mfa:GetProjectInfo>
-    <sads:DebugSymbol.Symbol>d2VDOlxVc2Vyc1xqYmllbnpcQ29kZVxNaWNyb3NvZnRcRmVhdHVyZUVuZ2luZVxGZWF0dXJlUGFja3NcQ29ydGFuYUZQXEFjdGl2aXRpZXNcRW5hYmxlVm9pY2VMYXVuY2gueGFtbAgtA1EOAgEBMgU7HAIBCzwFQBgCAQlBBU8aAgECOAs4XwIBDDyPATy5AQIBCkwLTFcCAQZEC0RoAgED</sads:DebugSymbol.Symbol>
-  </Sequence>
+    <sads:DebugSymbol.Symbol>d2VDOlxVc2Vyc1xqYmllbnpcQ29kZVxNaWNyb3NvZnRcRmVhdHVyZUVuZ2luZVxGZWF0dXJlUGFja3NcQ29ydGFuYUZQXEFjdGl2aXRpZXNcRW5hYmxlVm9pY2VMYXVuY2gueGFtbAgtA1EQAgEBMgU7HAMBAQs8BUAYAwEBCUEFTxoDAQECOAs4XwMBAQw8jwE8uQEDAQEKTAtMVwMBAQZEC0RoAwEBAw==</sads:DebugSymbol.Symbol>
+  </mfa:Recipe>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
       <sap2010:ViewStateData Id="GetActiveProject_2" sap:VirtualizedContainerService.HintSize="200,22" />

@@ -62,11 +62,14 @@ namespace VSFeatureEngine.Workflow
 
         private void RunRecipe(bool whatIf)
         {
-            // Make sure we have the activity instantiated
+            // Make sure we have the activity instantiated and expressions compiled
             if (activity == null)
             {
                 // Create the activity
                 activity = (Activity)Activator.CreateInstance(activityType);
+
+                // Ensure expressions are compiled
+                WorkflowTools.CompileExpressions(activity);
             }
 
             // Create workflow app
@@ -119,6 +122,8 @@ namespace VSFeatureEngine.Workflow
 
         protected virtual UnhandledExceptionAction OnUnhandledException(WorkflowApplicationUnhandledExceptionEventArgs e)
         {
+            // The problem here is because C# expressions aren't getting compiled.
+            // If we get rid of Recipe in the workflow and replace it with Sequence everything starts working again.
             return UnhandledExceptionAction.Terminate;
         }
 
