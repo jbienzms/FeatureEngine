@@ -41,13 +41,13 @@ namespace VSFeatureEngine
     /// <summary>
     /// 
     /// </summary>
-    public partial class ManageFeaturesDialog : DialogWindow
+    public partial class RunRecipeDialog : DialogWindow
     {
         #region ctor
         /// <summary>
         /// Initializes a new instance of the <see cref="ManageFeaturesDialog"/> class.
         /// </summary>
-        public ManageFeaturesDialog()
+        public RunRecipeDialog()
         {
             this.HasMaximizeButton = true;
             this.HasMinimizeButton = true;
@@ -55,5 +55,15 @@ namespace VSFeatureEngine
             InitializeComponent();
         }
         #endregion
+
+        private void OKButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
+        }
     }
 }

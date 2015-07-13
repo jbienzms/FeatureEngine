@@ -1,4 +1,4 @@
-﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="CortanaFP.Activities.EnableVoiceLaunch" sap2010:ExpressionActivityEditor.ExpressionActivityEditor="C#" sap2010:WorkflowViewState.IdRef="CortanaFP.Activities.AddCortanaSupport_1"
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="CortanaFP.Activities.EnableVoiceLaunch" sap2010:ExpressionActivityEditor.ExpressionActivityEditor="C#" sap2010:WorkflowViewState.IdRef="CortanaFP.Activities.EnableVoiceLaunch_1"
  xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
  xmlns:e="clr-namespace:EnvDTE;assembly=EnvDTE"
  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,6 +8,7 @@
  xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
  xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
  xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
  xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
@@ -41,11 +42,11 @@
       <AssemblyReference>CortanaFP</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <mfa:Recipe Description="This recipe adds the ability to launch your application by voice command using Cortana. The steps below add the required files and capabilities to your application to support these features." DisplayName="VoiceLaunch" sap2010:WorkflowViewState.IdRef="Recipe_1" Title="Add Cortana Voice Launch Support">
-    <mfa:Recipe.Variables>
+  <Sequence DisplayName="VoiceLaunch" sap2010:WorkflowViewState.IdRef="Recipe_1">
+    <Sequence.Variables>
       <Variable x:TypeArguments="e:Project" Name="ActiveProject" />
       <Variable x:TypeArguments="mf:ProjectInfo" Name="ActiveProjectInfo" />
-    </mfa:Recipe.Variables>
+    </Sequence.Variables>
     <mfa:GetActiveProject sap2010:WorkflowViewState.IdRef="GetActiveProject_2">
       <mfa:GetActiveProject.MoreInfoLink>
         <mf:Link Title="Foo" Url="http://foo.net" />
@@ -56,6 +57,11 @@
         </OutArgument>
       </mfa:GetActiveProject.Project>
     </mfa:GetActiveProject>
+    <mfa:ShowDocument Description="Shows sample documentation." sap2010:WorkflowViewState.IdRef="ShowDocument_1" Title="Show Sample Docs" Url="http://github.com/jbienzms/FeatureEngine">
+      <mfa:ShowDocument.MoreInfoLink>
+        <mf:Link Title="Show Stuff" Url="http://www.bing.com" />
+      </mfa:ShowDocument.MoreInfoLink>
+    </mfa:ShowDocument>
     <mfa:GetProjectInfo sap2010:WorkflowViewState.IdRef="GetProjectInfo_2">
       <mfa:GetProjectInfo.Info>
         <OutArgument x:TypeArguments="mf:ProjectInfo">
@@ -71,14 +77,21 @@
         </InArgument>
       </mfa:GetProjectInfo.Project>
     </mfa:GetProjectInfo>
-    <sads:DebugSymbol.Symbol>d2VDOlxVc2Vyc1xqYmllbnpcQ29kZVxNaWNyb3NvZnRcRmVhdHVyZUVuZ2luZVxGZWF0dXJlUGFja3NcQ29ydGFuYUZQXEFjdGl2aXRpZXNcRW5hYmxlVm9pY2VMYXVuY2gueGFtbAYsA0sQAgEBMQU6HAMBAQk7BUkaAwEBAjcLN18DAQEKRgtGVwMBAQY+Cz5oAwEBAw==</sads:DebugSymbol.Symbol>
-  </mfa:Recipe>
+    <sads:DebugSymbol.Symbol>d2VDOlxVc2Vyc1xqYmllbnpcQ29kZVxNaWNyb3NvZnRcRmVhdHVyZUVuZ2luZVxGZWF0dXJlUGFja3NcQ29ydGFuYUZQXEFjdGl2aXRpZXNcRW5hYmxlVm9pY2VMYXVuY2gueGFtbAgtA1EOAgEBMgU7HAIBCzwFQBgCAQlBBU8aAgECOAs4XwIBDDyPATy5AQIBCkwLTFcCAQZEC0RoAgED</sads:DebugSymbol.Symbol>
+  </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
       <sap2010:ViewStateData Id="GetActiveProject_2" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="ShowDocument_1" sap:VirtualizedContainerService.HintSize="200,22" />
       <sap2010:ViewStateData Id="GetProjectInfo_2" sap:VirtualizedContainerService.HintSize="200,22" />
-      <sap2010:ViewStateData Id="Recipe_1" sap:VirtualizedContainerService.HintSize="222,208" />
-      <sap2010:ViewStateData Id="CortanaFP.Activities.AddCortanaSupport_1" sap:VirtualizedContainerService.HintSize="262,288" />
+      <sap2010:ViewStateData Id="Recipe_1" sap:VirtualizedContainerService.HintSize="222,270">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="CortanaFP.Activities.EnableVoiceLaunch_1" sap:VirtualizedContainerService.HintSize="262,350" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>

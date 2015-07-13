@@ -61,11 +61,29 @@ namespace Microsoft.FeatureEngine {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Executable files are not supported..
+        /// </summary>
+        internal static string ExecutablesNotSupported {
+            get {
+                return ResourceManager.GetString("ExecutablesNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not find an active Project..
         /// </summary>
         internal static string FailureFindingActiveProject {
             get {
                 return ResourceManager.GetString("FailureFindingActiveProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Url cannot be empty..
+        /// </summary>
+        internal static string UrlCannotBeEmpty {
+            get {
+                return ResourceManager.GetString("UrlCannotBeEmpty", resourceCulture);
             }
         }
     }

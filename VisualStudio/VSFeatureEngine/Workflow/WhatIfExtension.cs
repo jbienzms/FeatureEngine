@@ -7,32 +7,38 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.FeatureEngine.Activities;
 using Microsoft.FeatureEngine.Workflow;
+using VSFeatureEngine.ViewModels;
 
 namespace VSFeatureEngine.Workflow
 {
     public class WhatIfExtension : IWhatIfExtension
     {
+        #region Member Variables
+        private RunRecipeViewModel viewModel;
+        #endregion // Member Variables
+
+        #region Constructors
         public WhatIfExtension()
         {
-            Results = new ObservableCollection<WhatIfExecutionResult>();
+            // Init
+            viewModel = new RunRecipeViewModel();
         }
+        #endregion // Constructors
 
         public void ProcessExecutionResult(WhatIfExecutionResult result)
         {
             if (result == null) throw new ArgumentNullException("result");
-            Results.Add(result);
+            viewModel.ExecutionResults.Add(result);
         }
 
         public void SetRootActivity(Activity activity)
         {
             if (activity == null) throw new ArgumentNullException("activity");
-            RootActivity = activity;
+            viewModel.RootActivity = activity as IFeatureActivity;
         }
 
         public bool IsInWhatIfMode { get; set; }
 
-        public ObservableCollection<WhatIfExecutionResult> Results { get; private set; } 
-
-        public Activity RootActivity { get; private set; }
+        public RunRecipeViewModel ViewModel { get { return viewModel; } }
     }
 }

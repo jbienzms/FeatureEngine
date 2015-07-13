@@ -39,14 +39,17 @@ namespace Microsoft.FeatureEngine.Activities
         protected override void Execute(CodeActivityContext context)
         {
             var whatIf = context.GetExtension<IWhatIfExtension>();
-            if (whatIf.IsInWhatIfMode)
+            if ((whatIf != null) && (whatIf.IsInWhatIfMode))
             {
                 var result = ExecuteWhatIf(context);
                 whatIf.ProcessExecutionResult(result);
             }
             else
             {
-                ExecuteNonWhatIf(context);
+                if (IsEnabled)
+                {
+                    ExecuteNonWhatIf(context);
+                }
             }
         }
         #endregion // Overrides / Event Handlers

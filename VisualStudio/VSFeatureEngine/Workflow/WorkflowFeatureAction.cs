@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using Microsoft.FeatureEngine;
 using Microsoft.FeatureEngine.Workflow;
 using VSFeatureEngine.FeaturePacks;
+using VSFeatureEngine.ViewModels;
 
 namespace VSFeatureEngine.Workflow
 {
@@ -18,9 +20,8 @@ namespace VSFeatureEngine.Workflow
         #region Member Variables
         private Activity activity;
         private Type activityType;
+        private IExecutionContext executionContext;
         private IServiceStore serviceStore;
-        private WhatIfExtension whatIfExtension;
-        private WorkflowApplication wfApp;
         #endregion // Member Variables
 
 
@@ -41,15 +42,35 @@ namespace VSFeatureEngine.Workflow
         #endregion // Constructors
 
         #region Internal Methods
-        private void EnsureWFInitialized()
+        private void EditAndRunRecipe(RunRecipeViewModel viewModel)
         {
-            if (wfApp != null) { return; }
+            // Must run from the UI thread
+            ThreadHelper.UIDispatcher.BeginInvoke(DispatcherPriority.Normal, (Action)(() =>
+            {
+                // Create and show the dialog
+                var dlg = new RunRecipeDialog();
+                dlg.DataContext = viewModel;
+                var m = dlg.ShowModal();
 
-            // Create the activity
-            activity = (Activity)Activator.CreateInstance(activityType);
+                // If user canceled, bail
+                if (m != true) { return; }
+
+                // User didn't bail. Run again with updated definition and not in what-if mode.
+                RunRecipe(false);
+            }));
+        }
+
+        private void RunRecipe(bool whatIf)
+        {
+            // Make sure we have the activity instantiated
+            if (activity == null)
+            {
+                // Create the activity
+                activity = (Activity)Activator.CreateInstance(activityType);
+            }
 
             // Create workflow app
-            wfApp = new WorkflowApplication(activity);
+            var wfApp = new WorkflowApplication(activity);
 
             // Wire up events
             wfApp.Aborted = OnAborted;
@@ -59,11 +80,14 @@ namespace VSFeatureEngine.Workflow
             wfApp.Unloaded = OnUnloaded;
 
             // Create extensions
-            whatIfExtension = new WhatIfExtension();
+            var whatIfExtension = new WhatIfExtension() { IsInWhatIfMode = whatIf };
 
             // Add extensions
             wfApp.Extensions.Add<IServiceStore>(() => serviceStore);
             wfApp.Extensions.Add<IWhatIfExtension>(() => whatIfExtension);
+
+            // Run it!
+            wfApp.Run();
         }
         #endregion // Internal Methods
 
@@ -75,7 +99,17 @@ namespace VSFeatureEngine.Workflow
 
         protected virtual void OnCompleted(WorkflowApplicationCompletedEventArgs e)
         {
+            // If it's not done yet, ignore
+            if (e.CompletionState != ActivityInstanceState.Closed) { return; }
 
+            // Try to get the WhatIf extension
+            var whatIfExtension = e.GetInstanceExtensions<IWhatIfExtension>().FirstOrDefault() as WhatIfExtension;
+
+            // If the recipe was running in What-If mode, allow for edits and possibly run again
+            if ((whatIfExtension != null) && (whatIfExtension.IsInWhatIfMode))
+            {
+                EditAndRunRecipe(whatIfExtension.ViewModel);
+            }
         }
 
         protected virtual PersistableIdleAction OnPersistableIdle(WorkflowApplicationIdleEventArgs e)
@@ -97,32 +131,14 @@ namespace VSFeatureEngine.Workflow
         #region Overrides / Event Handlers
         public override void Execute(IExecutionContext context)
         {
+            // Store the context
+            executionContext = context;
+
             // Update the reference to the service store in case it changes
             serviceStore = context.ServiceStore;
 
-            // Ensure that workflow has been initialized
-            EnsureWFInitialized();
-
-            // Interactive mode?
-            if (false) // context.IsInteractive)
-            {
-                // Run the workflow in what-if mode
-                whatIfExtension.IsInWhatIfMode = true;
-                wfApp.Run();
-
-                // TODO: Show UI
-
-                // TODO: Allow enable / disable
-
-                // Run the workflow again in non what-if mode
-                whatIfExtension.IsInWhatIfMode = false;
-                wfApp.Run();
-            }
-            else
-            {
-                // Run the workflow
-                wfApp.Run();
-            }
+            // Run the recipe. If we're in interactive, we'll run it with What-If.
+            RunRecipe(context.IsInteractive);
         }
         #endregion // Overrides / Event Handlers
     }

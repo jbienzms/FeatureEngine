@@ -100,10 +100,12 @@
     <Compile Include="Activities\GetActiveProject.cs" />
     <Compile Include="Activities\GetProjectInfo.cs" />
     <Compile Include="Activities\Recipe.cs" />
+    <Compile Include="Activities\ShowDocument.cs" />
     <Compile Include="Activities\WhatIfActivity.cs" />
     <Compile Include="ActivityDesigners\RecipeDesigner.xaml.cs">
       <DependentUpon>RecipeDesigner.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Entities\ObservableObject.cs" />
     <Compile Include="Entities\FeaturePackAssociation.cs" />
     <Compile Include="Entities\Link.cs" />
     <Compile Include="Entities\ProjectInfo.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="Extensibility\DynamicMenuItem.cs" />
     <Compile Include="Extensibility\DynamicMenuItemEventArgs.cs" />
     <Compile Include="Extensibility\ProjectDynamicMenu.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TaskHelper.cs" />
     <Compile Include="FeaturePacks\IFeature.cs" />
     <Compile Include="FeaturePacks\IFeaturePack.cs" />

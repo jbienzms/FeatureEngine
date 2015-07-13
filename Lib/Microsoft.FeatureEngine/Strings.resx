@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ExecutablesNotSupported" xml:space="preserve">
+    <value>Executable files are not supported.</value>
+  </data>
   <data name="FailureFindingActiveProject" xml:space="preserve">
     <value>Could not find an active Project.</value>
+  </data>
+  <data name="UrlCannotBeEmpty" xml:space="preserve">
+    <value>Url cannot be empty.</value>
   </data>
 </root>

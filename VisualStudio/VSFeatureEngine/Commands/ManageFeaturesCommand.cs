@@ -136,7 +136,7 @@ namespace VSFeatureEngine
         private void ShowDialog(object sender, EventArgs e)
         {
             // Create and show the dialog
-            var dlg = new ManageFeaturesDialog();
+            var dlg = new RunRecipeDialog();
             var m = dlg.ShowModal();
         }
 

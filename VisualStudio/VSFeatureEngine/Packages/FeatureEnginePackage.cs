@@ -31,6 +31,7 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Threading;
 using Microsoft.FeatureEngine;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.ComponentModelHost;
@@ -94,6 +95,9 @@ namespace VSFeatureEngine
         protected override void Initialize()
         {
             base.Initialize();
+
+            // We should be on the UI Thread. Grab the dispatcher.
+            ThreadHelper.SetUIDispatcher(Dispatcher.CurrentDispatcher);
 
             // Make sure the plugin doesn't fail to load
             TaskHelper.RunWithErrorHandling(() =>
